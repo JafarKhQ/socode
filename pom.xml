@@ -9,6 +9,7 @@
 
         <!-- Spring -->
         <spring.version>4.2.1.RELEASE</spring.version>
+        <spring.mongodb.version>1.8.0.RELEASE</spring.mongodb.version>
 
         <!-- Servlet -->
         <servlet.version>2.5</servlet.version>
@@ -34,6 +35,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring Data -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring.mongodb.version}</version>
         </dependency>
 
         <!-- Servlet -->
