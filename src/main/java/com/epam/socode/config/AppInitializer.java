@@ -22,9 +22,10 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
+        //TODO: config profiles
         return new Class<?>[]{
-                DevAppConfig.class,
-                ProAppConfig.class
+                //ProAppConfig.class,
+                DevAppConfig.class
         };
     }
 
@@ -37,7 +38,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected String[] getServletMappings() {
-        return new String[0];
+        return new String[]{"/"};
     }
 
     @Override

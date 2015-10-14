@@ -3,6 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>socode</name>
+    <groupId>com.epam</groupId>
+    <artifactId>socode</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <!--
+    |
+    | Properties
+    |
+    -->
     <properties>
         <!-- Spring -->
         <spring.version>4.2.1.RELEASE</spring.version>
@@ -10,6 +23,9 @@
 
         <!-- Servlet -->
         <servlet.version>2.5</servlet.version>
+
+        <!-- Logging -->
+        <log4j.version>2.4</log4j.version>
 
         <!-- Jackson -->
         <jackson.version>2.6.2</jackson.version>
@@ -24,14 +40,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
-
-    <modelVersion>4.0.0</modelVersion>
-
-    <name>socode</name>
-    <groupId>com.epam</groupId>
-    <artifactId>socode</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
     <!--
     |
@@ -77,6 +85,18 @@
             <version>${jackson.version}</version>
         </dependency>
 
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -101,6 +121,15 @@
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Set war plugin config -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
