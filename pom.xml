@@ -24,6 +24,9 @@
         <!-- Servlet -->
         <servlet.version>2.5</servlet.version>
 
+        <!-- Hibernate -->
+        <hibernate.version>4.2.0.Final</hibernate.version>
+
         <!-- Logging -->
         <log4j.version>2.4</log4j.version>
 
@@ -46,6 +49,24 @@
     | Dependencies
     |
     -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Hibernate -->
+            <dependency>
+                <groupId>org.hibernate.ogm</groupId>
+                <artifactId>hibernate-ogm-bom</artifactId>
+                <type>pom</type>
+                <version>${hibernate.version}</version>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!--
+    |
+    | Dependencies
+    |
+    -->
     <dependencies>
         <!-- Spring -->
         <dependency>
@@ -59,11 +80,19 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!-- Spring Data -->
+        <!--
+        Spring Data
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>${spring.mongodb.version}</version>
+        </dependency>
+        -->
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate.ogm</groupId>
+            <artifactId>hibernate-ogm-neo4j</artifactId>
         </dependency>
 
         <!-- Servlet -->
