@@ -1,12 +1,11 @@
 package com.epam.socode.domain;
 
+import com.epam.socode.request.Signup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,29 +19,43 @@ public class Profile {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @JsonProperty("profile_id")
-    public String profileId;
+    private String profileId;
 
     @JsonProperty("name")
-    public String name;
+    private String name;
 
     @JsonProperty("surname")
-    public String surname;
+    private String surname;
+
+    @JsonProperty("email")
+    private String email;
+
+    @JsonIgnore
+    private String password;
 
     @JsonProperty("main_language")
-    public String mainLanguage;
+    private String mainLanguage;
 
     @JsonProperty("join_date")
-    public String joinDate;
+    private String joinDate;
 
     @JsonProperty("comment_likes")
-    public Long commentLikes;
+    private Long commentLikes;
 
     @JsonProperty("total_score")
-    public Long totalScore;
+    private Long totalScore;
 
-    @OneToMany
+    @ManyToMany(targetEntity = Project.class)
     @JsonProperty("participated")
-    public List<Project> participated = new ArrayList<>();
+    public List<Project> participatedProjects = new ArrayList<>();
+
+    public Profile() {
+    }
+
+    public Profile(Signup signup) {
+        email = signup.getLogin();
+        password = signup.getPassword();
+    }
 
     public String getProfileId() {
         return profileId;
@@ -68,6 +81,22 @@ public class Profile {
         this.surname = surname;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getMainLanguage() {
         return mainLanguage;
     }
@@ -84,12 +113,12 @@ public class Profile {
         this.joinDate = joinDate;
     }
 
-    public List<Project> getParticipated() {
-        return participated;
+    public List<Project> getParticipatedProjects() {
+        return participatedProjects;
     }
 
-    public void setParticipated(List<Project> participated) {
-        this.participated = participated;
+    public void setParticipatedProjects(List<Project> participatedProjects) {
+        this.participatedProjects = participatedProjects;
     }
 
     public Long getCommentLikes() {
