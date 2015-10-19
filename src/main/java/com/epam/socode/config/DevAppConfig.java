@@ -1,5 +1,6 @@
 package com.epam.socode.config;
 
+import com.epam.socode.util.Constants;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
  * @author jafar_qaddoumi
  */
 @Configuration
-@ComponentScan(basePackages = {"com.epam.socode.service",
-        "com.epam.socode.repository"})
+@ComponentScan(basePackages = {
+        Constants.PACKAGE_SERVICE,
+        Constants.PACKAGE_REPOSITORY})
 public class DevAppConfig extends BaseAppConfig {
 }
