@@ -21,7 +21,9 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     public Profile addProfile(Profile profile) {
         EntityManager em = entityManagerFactory.createEntityManager();
 
+        em.getTransaction().begin();
         em.persist(profile);
+        em.getTransaction().commit();
         em.close();
 
         //TODO: return the stored object
