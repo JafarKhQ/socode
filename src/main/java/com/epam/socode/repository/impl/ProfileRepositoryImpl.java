@@ -26,15 +26,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         em.getTransaction().commit();
         em.close();
 
-        //TODO: return the stored object
-        return null;
-
-        // get a new EM to make sure data is actually retrieved from the store
-        // and not Hibernate's internal cache
-//        em = entityManagerFactory.createEntityManager();
-//        Profile storedProfile = em.find(Profile.class, );
-//        em.close();
-//
-//        return storedProfile;
+        return profile;
     }
 }

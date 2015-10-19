@@ -34,8 +34,7 @@ class AuthController implements BaseController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleSignup(@RequestBody Signup signup) {
 
-        profileService.addProfile(new Profile(signup));
-
-        return Response.newSuccessResponse(signup);
+        Profile result = profileService.addProfile(new Profile(signup));
+        return Response.newSuccessResponse(result);
     }
 }

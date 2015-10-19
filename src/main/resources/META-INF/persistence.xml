@@ -9,7 +9,7 @@
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
 
         <properties>
-            <property name="hibernate.ogm.datastore.provider" value="org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider"/>
+            <property name="hibernate.ogm.datastore.provider" value="mongodb"/>
             <property name="hibernate.ogm.datastore.database" value="socodeDB"/>
             <property name="hibernate.ogm.datastore.create_database" value="true"/>
             <property name="hibernate.ogm.datastore.host" value="localhost:27017"/>
