@@ -37,6 +37,7 @@
         <jdk.version>1.8</jdk.version>
 
         <!-- Plugin -->
+        <plugin.maven.war>2.6</plugin.maven.war>
         <plugin.compiler.version>3.3</plugin.compiler.version>
 
         <!-- Encoding -->
@@ -156,7 +157,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>${plugin.maven.war}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
