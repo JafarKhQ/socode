@@ -1,12 +1,12 @@
 package com.epam.socode.config;
 
-import org.springframework.context.annotation.Configuration;
+import com.epam.socode.annotation.AppConfiguration;
 
 /**
  * App configuration for production environment (Profile)
  *
  * @author jafar_qaddoumi
  */
-@Configuration
+@AppConfiguration
 public class ProAppConfig extends BaseAppConfig {
 }
