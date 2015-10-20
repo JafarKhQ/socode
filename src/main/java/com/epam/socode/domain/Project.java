@@ -1,16 +1,11 @@
 package com.epam.socode.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -28,9 +23,8 @@ public class Project {
 	@JsonProperty("project_name")
 	private String projectName;
 
-	@ManyToMany(targetEntity = Profile.class, mappedBy = "participatedProjects")
-	@JsonIgnore
-	private List<Profile> participatedProfiles = new ArrayList<>();
+	public Project() {
+	}
 
 	public Project(String projectName) {
 		this.projectName = projectName;
@@ -50,13 +44,5 @@ public class Project {
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
-	}
-
-	public List<Profile> getParticipatedProfiles() {
-		return participatedProfiles;
-	}
-
-	public void setParticipatedProfiles(List<Profile> participatedProfiles) {
-		this.participatedProfiles = participatedProfiles;
 	}
 }

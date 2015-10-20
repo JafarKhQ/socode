@@ -2,7 +2,7 @@ package com.epam.socode.repository.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,17 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 	public Project findProjectById(String projectId) {
 		Project project = null;
 		Session session = sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(Project.class);
+		Query q = session.createQuery("FROM Project p WHERE p.projectId = '" + projectId + "'");
+		List queryResult = q.list();
+		// Criteria criteria = session.createCriteria(Project.class);
 		// criteria = criteria.add(Restrictions.eq("projectId", projectId));
-
-		@SuppressWarnings("unchecked")
-		List<Project> queryResult = criteria.list();
+		//
+		// @SuppressWarnings("unchecked")
+		// List<Project> queryResult = criteria.list();
 		if (!CollectionUtils.isEmpty(queryResult)) {
-			project = queryResult.get(0);
+			project = (Project) queryResult.get(0);
 		}
-
+		session.close();
 		return project;
 	}
 
@@ -40,6 +42,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 		session.getTransaction().begin();
 		session.persist(project);
 		session.getTransaction().commit();
+		session.close();
 		return project;
 	}
 }

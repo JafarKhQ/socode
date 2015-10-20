@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -54,6 +56,8 @@ public class Profile {
 	private Long totalScore;
 
 	@ManyToMany(targetEntity = Project.class)
+	@JoinTable(name = "Profile_Project", joinColumns = { @JoinColumn(name = "profileId") }, inverseJoinColumns = {
+			@JoinColumn(name = "projectId") })
 	@JsonProperty("participated")
 	public List<Project> participatedProjects = new ArrayList<>();
 

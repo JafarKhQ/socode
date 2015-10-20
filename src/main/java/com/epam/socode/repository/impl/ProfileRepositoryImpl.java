@@ -25,7 +25,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 		session.persist(profile);
 		// session.refresh(profile);
 		session.getTransaction().commit();
-
+		session.close();
 		return profile;
 	}
 }
