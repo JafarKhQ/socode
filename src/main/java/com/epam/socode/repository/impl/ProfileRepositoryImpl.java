@@ -23,6 +23,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
 		session.getTransaction().begin();
 		session.persist(profile);
+		// session.refresh(profile);
 		session.getTransaction().commit();
 
 		return profile;

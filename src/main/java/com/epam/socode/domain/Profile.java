@@ -38,6 +38,7 @@ public class Profile {
 	private String email;
 
 	@JsonIgnore
+	@Column(nullable = false)
 	private String password;
 
 	@JsonProperty("main_language")
@@ -142,5 +143,9 @@ public class Profile {
 
 	public void setTotalScore(Long totalScore) {
 		this.totalScore = totalScore;
+	}
+
+	public void addParticipatedProject(Project participatedProject) {
+		this.participatedProjects.add(participatedProject);
 	}
 }
