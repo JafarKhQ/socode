@@ -1,12 +1,12 @@
 package com.epam.socode.repository.impl;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.repository.ProfileRepository;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.repository.ProfileRepository;
 
 /**
  * @author jafar_qaddoumi
@@ -14,18 +14,17 @@ import javax.persistence.EntityManagerFactory;
 @Repository
 public class ProfileRepositoryImpl implements ProfileRepository {
 
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    @Override
-    public Profile addProfile(Profile profile) {
-        EntityManager em = entityManagerFactory.createEntityManager();
+	@Override
+	public Profile addProfile(Profile profile) {
+		Session session = sessionFactory.openSession();
 
-        em.getTransaction().begin();
-        em.persist(profile);
-        em.getTransaction().commit();
-        em.close();
+		session.getTransaction().begin();
+		session.persist(profile);
+		session.getTransaction().commit();
 
-        return profile;
-    }
+		return profile;
+	}
 }
