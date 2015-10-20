@@ -7,5 +7,7 @@ import com.epam.socode.domain.Profile;
  */
 public interface ProfileRepository {
 
-    Profile addProfile(Profile profile);
+	Profile addProfile(Profile profile);
+
+	void save(Profile profile);
 }
