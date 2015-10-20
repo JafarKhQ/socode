@@ -32,6 +32,10 @@ public class Project {
 	@JsonIgnore
 	private List<Profile> participatedProfiles = new ArrayList<>();
 
+	public Project(String projectName) {
+		this.projectName = projectName;
+	}
+
 	public String getProjectId() {
 		return projectId;
 	}

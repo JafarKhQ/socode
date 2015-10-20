@@ -7,4 +7,6 @@ import com.epam.socode.domain.Project;
  */
 public interface ProjectRepository {
 	Project findProjectById(String projectId);
+
+	Project addProject(Project project);
 }

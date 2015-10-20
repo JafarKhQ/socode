@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.Project;
 import com.epam.socode.repository.ProfileRepository;
-import com.epam.socode.repository.ProjectRepository;
 import com.epam.socode.request.Signup;
 import com.epam.socode.service.ProfileService;
+import com.epam.socode.service.ProjectService;
 
 /**
  * @author jafar_qaddoumi
@@ -19,16 +19,18 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Autowired
 	private ProfileRepository profileRepository;
+
 	@Autowired
-	private ProjectRepository projectRepository;
+	private ProjectService projectService;
 
 	@Override
 	public Profile addProfileFromSignup(Signup signup) {
 		Profile profile = new Profile(signup);
 		if (Strings.isNotEmpty(signup.getProject())) {
-			Project project = projectRepository.findProjectById(signup.getProject());
+			Project project = projectService.findProjectById(signup.getProject());
 			profile.addParticipatedProject(project);
 		}
+
 		return profileRepository.addProfile(profile);
 	}
 }
