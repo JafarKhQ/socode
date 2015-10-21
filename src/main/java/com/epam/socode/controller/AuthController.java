@@ -16,6 +16,7 @@ import com.epam.socode.request.Verify;
 import com.epam.socode.response.ErrorCodes;
 import com.epam.socode.response.Response;
 import com.epam.socode.service.ProfileService;
+import com.epam.socode.service.ProjectService;
 
 /**
  * @author jafar_qaddoumi
@@ -26,6 +27,10 @@ class AuthController implements BaseController {
 
 	@Autowired
 	private ProfileService profileService;
+
+	@Autowired
+	private ProjectService projectService;
+
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
 
@@ -36,9 +41,9 @@ class AuthController implements BaseController {
 
 	@RequestMapping(value = MAPPING_SIGNUP, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response handleSignup(@RequestBody Signup signup) {
-		Profile profile = new Profile(signup);
-		Profile result = profileService.addProfile(profile);
-		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(profile));
+		projectService.addProject("Test Project");
+		Profile result = profileService.addProfileFromSignup(signup);
+		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(result));
 		return Response.newSuccessResponse(result);
 	}
 

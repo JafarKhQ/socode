@@ -3,9 +3,12 @@ package com.epam.socode.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -33,12 +36,14 @@ public class Profile {
 	private String surname;
 
 	@JsonProperty("email")
+	@Column(unique = true, nullable = false)
 	private String email;
 
 	@JsonProperty("enabled")
 	private boolean enabled;
 
 	@JsonIgnore
+	@Column(nullable = false)
 	private String password;
 
 	@JsonProperty("main_language")
@@ -54,6 +59,8 @@ public class Profile {
 	private Long totalScore;
 
 	@ManyToMany(targetEntity = Project.class)
+	@JoinTable(name = "Profile_Project", joinColumns = { @JoinColumn(name = "profileId") }, inverseJoinColumns = {
+			@JoinColumn(name = "projectId") })
 	@JsonProperty("participated")
 	public List<Project> participatedProjects = new ArrayList<>();
 
@@ -152,5 +159,9 @@ public class Profile {
 
 	public void setTotalScore(Long totalScore) {
 		this.totalScore = totalScore;
+	}
+
+	public void addParticipatedProject(Project participatedProject) {
+		this.participatedProjects.add(participatedProject);
 	}
 }
