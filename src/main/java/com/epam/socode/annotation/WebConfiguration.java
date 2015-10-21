@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.lang.annotation.*;
 
 /**
+ * An annotation that contain all Web Config annotations
+ *
  * @author jafar_qaddoumi
  */
 @Target(ElementType.TYPE)
