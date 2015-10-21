@@ -14,35 +14,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class Project {
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	@JsonProperty("project_id")
-	private String projectId;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @JsonProperty("project_id")
+    private String projectId;
 
-	@JsonProperty("project_name")
-	private String projectName;
+    @JsonProperty("project_name")
+    private String projectName;
 
-	public Project() {
-	}
+    public Project() {
+    }
 
-	public Project(String projectName) {
-		this.projectName = projectName;
-	}
+    public Project(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getProjectId() {
-		return projectId;
-	}
+    public String getProjectId() {
+        return projectId;
+    }
 
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
-	}
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 }

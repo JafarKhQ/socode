@@ -15,34 +15,30 @@ import com.epam.socode.repository.ProjectRepository;
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
-	@Override
-	public Project findProjectById(String projectId) {
-		Project project = null;
-		Session session = sessionFactory.openSession();
-		Query q = session.createQuery("FROM Project p WHERE p.projectId = '" + projectId + "'");
-		List queryResult = q.list();
-		// Criteria criteria = session.createCriteria(Project.class);
-		// criteria = criteria.add(Restrictions.eq("projectId", projectId));
-		//
-		// @SuppressWarnings("unchecked")
-		// List<Project> queryResult = criteria.list();
-		if (!CollectionUtils.isEmpty(queryResult)) {
-			project = (Project) queryResult.get(0);
-		}
-		session.close();
-		return project;
-	}
+    @Override
+    public Project findProjectById(String projectId) {
+        Project project = null;
+        Session session = sessionFactory.openSession();
+        Query q = session.createQuery("FROM Project p WHERE p.projectId = '" + projectId + "'");
+        @SuppressWarnings("rawtypes")
+        List queryResult = q.list();
+        if (!CollectionUtils.isEmpty(queryResult)) {
+            project = (Project) queryResult.get(0);
+        }
+        session.close();
+        return project;
+    }
 
-	@Override
-	public Project addProject(Project project) {
-		Session session = sessionFactory.openSession();
-		session.getTransaction().begin();
-		session.persist(project);
-		session.getTransaction().commit();
-		session.close();
-		return project;
-	}
+    @Override
+    public Project addProject(Project project) {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+        session.persist(project);
+        session.getTransaction().commit();
+        session.close();
+        return project;
+    }
 }

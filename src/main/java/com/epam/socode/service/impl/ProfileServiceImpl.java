@@ -17,39 +17,31 @@ import com.epam.socode.service.ProjectService;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-	@Autowired
-	private ProfileRepository profileRepository;
+    @Autowired
+    private ProfileRepository profileRepository;
 
-	@Autowired
-	private ProjectService projectService;
+    @Autowired
+    private ProjectService projectService;
 
-	@Autowired
-	private TokenRepository tokenRepository;
+    @Override
+    public Profile addProfileFromSignup(Signup signup) {
+        Profile profile = new Profile(signup);
+        if (Strings.isNotEmpty(signup.getProject())) {
+            Project project = projectService.findProjectById(signup.getProject());
+            profile.addParticipatedProject(project);
+        }
 
-	@Override
-	public Profile addProfileFromSignup(Signup signup) {
-		Profile profile = new Profile(signup);
-		if (Strings.isNotEmpty(signup.getProject())) {
-			Project project = projectService.findProjectById(signup.getProject());
-			profile.addParticipatedProject(project);
-		}
+        return profileRepository.addProfile(profile);
+    }
 
-		return profileRepository.addProfile(profile);
-	}
+    @Override
+    public Profile updateProfile(Profile profile) {
+        return profileRepository.updateProfile(profile);
+    }
 
-	@Override
-	public VerificationToken getVerificationToken(String verifykey) {
-		return tokenRepository.getByVerificationKey(verifykey);
-	}
-
-	@Override
-	public void createVerificationToken(Profile profile, String token) {
-		VerificationToken myToken = new VerificationToken(token, profile);
-		tokenRepository.save(myToken);
-	}
-
-	@Override
-	public void saveRegisteredProfile(Profile profile) {
-		profileRepository.save(profile);
-	}
+    @Override
+    public Profile enableProfile(Profile profile) {
+        profile.setEnabled(true);
+        return updateProfile(profile);
+    }
 }

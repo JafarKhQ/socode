@@ -12,6 +12,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.Project;
+import com.epam.socode.domain.VerificationToken;
 
 /**
  * Common App Configuration for All environments (Profiles)
@@ -20,47 +21,48 @@ import com.epam.socode.domain.Project;
  */
 class BaseAppConfig {
 
-	@Value("${database.config}")
-	private String persistenceUnit;
+    @Value("${database.config}")
+    private String persistenceUnit;
 
-	@Value("${database.provider}")
-	private String provider;
+    @Value("${database.provider}")
+    private String provider;
 
-	@Value("${database.create_database}")
-	private String createDatabase;
+    @Value("${database.create_database}")
+    private String createDatabase;
 
-	@Value("${database.host}")
-	private String host;
+    @Value("${database.host}")
+    private String host;
 
-	@Value("${database.database}")
-	private String database;
+    @Value("${database.database}")
+    private String database;
 
-	@Value("${database.username}")
-	private String username;
+    @Value("${database.username}")
+    private String username;
 
-	@Value("${database.password}")
-	private String password;
+    @Value("${database.password}")
+    private String password;
 
-	@Bean
-	public SessionFactory sessionFactory() {
-		Configuration configuration = new OgmConfiguration();
-		configuration.setProperty(OgmProperties.DATASTORE_PROVIDER, provider);
-		configuration.setProperty(OgmProperties.HOST, host);
-		configuration.setProperty(OgmProperties.DATABASE, database);
-		configuration.setProperty(OgmProperties.USERNAME, username);
-		configuration.setProperty(OgmProperties.PASSWORD, password);
-		configuration.setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
-		configuration.addAnnotatedClass(Profile.class);
-		configuration.addAnnotatedClass(Project.class);
+    @Bean
+    public SessionFactory sessionFactory() {
+        Configuration configuration = new OgmConfiguration();
+        configuration.setProperty(OgmProperties.DATASTORE_PROVIDER, provider);
+        configuration.setProperty(OgmProperties.HOST, host);
+        configuration.setProperty(OgmProperties.DATABASE, database);
+        configuration.setProperty(OgmProperties.USERNAME, username);
+        configuration.setProperty(OgmProperties.PASSWORD, password);
+        configuration.setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
 
-		StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-				.applySettings(configuration.getProperties()).build();
+        configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
+                .addAnnotatedClass(VerificationToken.class);
 
-		return configuration.buildSessionFactory(serviceRegistry);
-	}
+        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties()).build();
 
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
-		return new PropertySourcesPlaceholderConfigurer();
-	}
+        return configuration.buildSessionFactory(serviceRegistry);
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 }

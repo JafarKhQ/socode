@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -11,16 +10,12 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <!--
-    |
-    | Properties
-    |
-    -->
+    <!-- | | Properties | -->
     <properties>
         <!-- Spring -->
         <spring.version>4.2.1.RELEASE</spring.version>
         <spring.mongodb.version>1.8.0.RELEASE</spring.mongodb.version>
-		<spring.support.version>2.0.8</spring.support.version>
+        <spring.support.version>2.0.8</spring.support.version>
 
         <!-- Servlet -->
         <servlet.version>2.5</servlet.version>
@@ -45,26 +40,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<!-- Mail -->
-		<javax.mail.version>1.5.4</javax.mail.version>
+        <!-- Mail -->
+        <javax.mail.version>1.5.4</javax.mail.version>
     </properties>
 
-    <!--
-    |
-    | Dependencies
-    |
-    -->
+    <!-- | | Dependencies | -->
     <dependencyManagement>
         <dependencies>
 
         </dependencies>
     </dependencyManagement>
 
-    <!--
-    |
-    | Dependencies
-    |
-    -->
+    <!-- | | Dependencies | -->
     <dependencies>
         <!-- Spring -->
         <dependency>
@@ -77,10 +64,14 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-support</artifactId>
+            <version>${spring.support.version}</version>
+        </dependency>
 
-        <!--
-        Spring Data
-        -->
+
+        <!-- Spring Data -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
@@ -136,12 +127,12 @@
             <version>${log4j.version}</version>
         </dependency>
 
-		<!-- Mail -->
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>${javax.mail.version}</version>
-		</dependency>
+        <!-- Mail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>${javax.mail.version}</version>
+        </dependency>
 
 
         <!-- Test -->
@@ -153,11 +144,7 @@
         </dependency>
     </dependencies>
 
-    <!--
-    |
-    | Build
-    |
-    -->
+    <!-- | | Build | -->
     <build>
         <plugins>
             <!-- Set a JDK compiler level -->

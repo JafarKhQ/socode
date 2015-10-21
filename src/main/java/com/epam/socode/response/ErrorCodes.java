@@ -7,9 +7,9 @@ package com.epam.socode.response;
  */
 public final class ErrorCodes {
 
-	public static final int EMAIL_VERIFICATION_ERROR = 401;
+    public static final int EMAIL_VERIFICATION_ERROR = 401;
 
-	private ErrorCodes() {
-		throw new IllegalAccessError();
-	}
+    private ErrorCodes() {
+        throw new IllegalAccessError();
+    }
 }

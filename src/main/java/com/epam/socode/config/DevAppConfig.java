@@ -19,24 +19,24 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(Constants.PROPERTY_SOURCE_DEV)
 public class DevAppConfig extends BaseAppConfig {
 
-	@Bean
-	public JavaMailSender mailSender() {
-		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost("smtp.gmail.com");
-		mailSender.setPort(465);
-		mailSender.setProtocol("smtp");
-		mailSender.setUsername("useful.mailer@gmail.com");
-		mailSender.setPassword("usefulMailer123#@!");
+    @Bean
+    public JavaMailSender mailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(465);
+        mailSender.setProtocol("smtp");
+        mailSender.setUsername("useful.mailer@gmail.com");
+        mailSender.setPassword("usefulMailer123#@!");
 
-		Properties javaMailProperties = new Properties();
-		javaMailProperties.setProperty("mail.smtp.auth", "true");
-		javaMailProperties.setProperty("mail.smtp.starttls.enable", "false");
-		javaMailProperties.setProperty("mail.smtp.quitwait", "false");
-		javaMailProperties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		javaMailProperties.setProperty("mail.smtp.socketFactory.fallback", "false");
-		javaMailProperties.setProperty("mail.debug", "true");
-		mailSender.setJavaMailProperties(javaMailProperties);
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.setProperty("mail.smtp.auth", "true");
+        javaMailProperties.setProperty("mail.smtp.starttls.enable", "false");
+        javaMailProperties.setProperty("mail.smtp.quitwait", "false");
+        javaMailProperties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        javaMailProperties.setProperty("mail.smtp.socketFactory.fallback", "false");
+        javaMailProperties.setProperty("mail.debug", "true");
+        mailSender.setJavaMailProperties(javaMailProperties);
 
-		return mailSender;
-	}
+        return mailSender;
+    }
 }

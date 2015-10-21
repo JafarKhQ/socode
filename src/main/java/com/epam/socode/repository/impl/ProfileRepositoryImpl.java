@@ -14,27 +14,26 @@ import com.epam.socode.repository.ProfileRepository;
 @Repository
 public class ProfileRepositoryImpl implements ProfileRepository {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
-	@Override
-	public Profile addProfile(Profile profile) {
-		Session session = sessionFactory.openSession();
+    @Override
+    public Profile addProfile(Profile profile) {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+        session.persist(profile);
+        session.getTransaction().commit();
+        session.close();
+        return profile;
+    }
 
-		session.getTransaction().begin();
-		session.persist(profile);
-		// session.refresh(profile);
-		session.getTransaction().commit();
-		session.close();
-		return profile;
-	}
-
-	@Override
-	public void save(Profile profile) {
-		EntityManager em = entityManagerFactory.createEntityManager();
-		em.getTransaction().begin();
-		em.persist(profile);
-		em.getTransaction().commit();
-		em.close();
-	}
+    @Override
+    public Profile updateProfile(Profile profile) {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+        session.update(profile);
+        session.getTransaction().commit();
+        session.close();
+        return profile;
+    }
 }
