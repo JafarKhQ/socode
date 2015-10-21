@@ -13,4 +13,5 @@ public interface ProfileRepository {
 
     Profile findProfileByEmail(String email);
 
+    Profile findProfileById(String profileId);
 }

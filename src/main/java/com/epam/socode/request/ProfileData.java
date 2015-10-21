@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by jafar_qaddoumi on 10/21/15.
  */
-public class Logout {
+public class ProfileData {
+    @JsonProperty("profile_id")
+    private String profileId;
+
     @JsonProperty("token")
     private String token;
 
@@ -15,5 +18,13 @@ public class Logout {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(String profileId) {
+        this.profileId = profileId;
     }
 }

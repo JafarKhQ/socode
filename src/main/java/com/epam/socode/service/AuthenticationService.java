@@ -7,7 +7,9 @@ public interface AuthenticationService {
 
     String login(Login login);
 
-    void vaildateProfileToken(String profileId, String token);
+    void validateToken(String token);
 
     void logout(Logout logout);
+
+    String findProfileIdByToken(String token);
 }

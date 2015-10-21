@@ -27,15 +27,6 @@ public class ExceptionControllerAdvice {
         return Response.newErrorResponse(ErrorCodes.WRONG_EMAIL_PASSWORD_ERROR);
     }
 
-
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(NotAuthenticatedProfileException.class)
-    @ResponseBody
-    public Response handleNotAuthenticatedProfileException(Exception e) {
-        return Response.newErrorResponse(ErrorCodes.NOT_AUTHENTICATED_PROFILE_ERROR);
-    }
-
-
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(InvalidTokenException.class)
     @ResponseBody

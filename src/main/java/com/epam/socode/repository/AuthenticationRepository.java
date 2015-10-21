@@ -6,7 +6,7 @@ public interface AuthenticationRepository {
 
     ProfileToken createToken(String profileId, String token);
 
-    ProfileToken findTokenByProfileId(String profileId);
+    ProfileToken findToken(String token);
 
-    void removeToken(String profileId);
+    void removeToken(String token);
 }

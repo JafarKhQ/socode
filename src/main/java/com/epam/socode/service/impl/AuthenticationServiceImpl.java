@@ -4,7 +4,6 @@ import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.ProfileToken;
 import com.epam.socode.excepion.ExpiredTokenException;
 import com.epam.socode.excepion.InvalidTokenException;
-import com.epam.socode.excepion.NotAuthenticatedProfileException;
 import com.epam.socode.excepion.WrongEmailPasswordException;
 import com.epam.socode.repository.AuthenticationRepository;
 import com.epam.socode.request.Login;
@@ -51,13 +50,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void vaildateProfileToken(String profileId, String token) {
-        ProfileToken profileToken = authenticationRepository.findTokenByProfileId(profileId);
+    public void validateToken(String token) {
+        ProfileToken profileToken = authenticationRepository.findToken(token);
         if (null == profileToken) {
-            throw new NotAuthenticatedProfileException();
-        }
-
-        if (!profileToken.getToken().equals(token)) {
             throw new InvalidTokenException();
         }
 
@@ -72,8 +67,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public void logout(Logout logout) {
-        vaildateProfileToken(logout.getProfileId(), logout.getToken());
-        authenticationRepository.removeToken(logout.getProfileId());
+        validateToken(logout.getToken());
+        authenticationRepository.removeToken(logout.getToken());
+    }
+
+    @Override
+    public String findProfileIdByToken(String token) {
+        ProfileToken profileToken = authenticationRepository.findToken(token);
+        return profileToken.getProfileId();
     }
 
     private String generateToken(Profile profile) {
