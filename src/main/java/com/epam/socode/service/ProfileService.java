@@ -12,4 +12,6 @@ public interface ProfileService {
     Profile updateProfile(Profile profile);
 
     Profile enableProfile(Profile profile);
+
+    Profile findProfileByEmail(String email);
 }

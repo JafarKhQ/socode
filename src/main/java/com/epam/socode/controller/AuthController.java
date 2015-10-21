@@ -1,5 +1,6 @@
 package com.epam.socode.controller;
 
+import com.epam.socode.request.Logout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.socode.domain.Profile;
 import com.epam.socode.event.OnRegistrationCompleteEvent;
+import com.epam.socode.request.Login;
 import com.epam.socode.request.Signup;
 import com.epam.socode.request.Verify;
 import com.epam.socode.response.Response;
+import com.epam.socode.service.AuthenticationService;
 import com.epam.socode.service.ProfileService;
 import com.epam.socode.service.ProjectService;
 import com.epam.socode.service.VerificationTokenService;
@@ -32,6 +35,8 @@ class AuthController implements BaseController {
 
     @Autowired
     private VerificationTokenService verificationTokenService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @Autowired
     ApplicationEventPublisher eventPublisher;
@@ -53,5 +58,17 @@ class AuthController implements BaseController {
     public Response handleVerify(@RequestBody Verify verify) {
         Profile profile = verificationTokenService.verifyProfile(verify);
         return Response.newSuccessResponse(profile);
+    }
+
+    @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Response handleLogin(@RequestBody Login login) {
+        String token = authenticationService.login(login);
+        return Response.newSuccessResponse(token);
+    }
+
+    @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Response handleLogiout(@RequestBody Logout logout) {
+        authenticationService.logout(logout);
+        return Response.newSuccessResponse();
     }
 }

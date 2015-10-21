@@ -11,4 +11,6 @@ public interface ProfileRepository {
 
     Profile updateProfile(Profile profile);
 
+    Profile findProfileByEmail(String email);
+
 }

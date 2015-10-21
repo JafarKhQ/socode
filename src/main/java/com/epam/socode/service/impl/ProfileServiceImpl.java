@@ -44,4 +44,9 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setEnabled(true);
         return updateProfile(profile);
     }
+
+    @Override
+    public Profile findProfileByEmail(String email) {
+        return profileRepository.findProfileByEmail(email);
+    }
 }
