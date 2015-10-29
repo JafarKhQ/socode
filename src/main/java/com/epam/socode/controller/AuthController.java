@@ -9,8 +9,8 @@ import com.epam.socode.request.Verify;
 import com.epam.socode.response.Response;
 import com.epam.socode.service.AuthenticationService;
 import com.epam.socode.service.ProfileService;
+import com.epam.socode.service.ProfileVerificationService;
 import com.epam.socode.service.ProjectService;
-import com.epam.socode.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
@@ -33,7 +33,7 @@ class AuthController implements BaseController {
     private ProjectService projectService;
 
     @Autowired
-    private VerificationTokenService verificationTokenService;
+    private ProfileVerificationService profileVerificationService;
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -58,7 +58,7 @@ class AuthController implements BaseController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleVerify(@RequestBody Verify verify) {
-        Profile profile = verificationTokenService.verifyProfile(verify);
+        Profile profile = profileVerificationService.verifyProfile(verify);
         return Response.newSuccessResponse(profile);
     }
 

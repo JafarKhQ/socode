@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Verify {
     @JsonProperty("email")
     private String email;
-    @JsonProperty("verifykey")
-    private String verifykey;
+    @JsonProperty("verify_key")
+    private String verifyKey;
 
     public String getEmail() {
         return email;
@@ -21,12 +21,11 @@ public class Verify {
         this.email = email;
     }
 
-    public String getVerifykey() {
-        return verifykey;
+    public String getVerifyKey() {
+        return verifyKey;
     }
 
-    public void setVerifykey(String verifykey) {
-        this.verifykey = verifykey;
+    public void setVerifyKey(String verifyKey) {
+        this.verifyKey = verifyKey;
     }
-
 }

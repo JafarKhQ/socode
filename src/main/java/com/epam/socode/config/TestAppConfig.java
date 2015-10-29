@@ -1,7 +1,10 @@
 package com.epam.socode.config;
 
-import java.util.Properties;
-
+import com.epam.socode.annotation.AppConfiguration;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.Project;
+import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.util.Constants;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -11,11 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.epam.socode.annotation.AppConfiguration;
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
-import com.epam.socode.domain.VerificationToken;
-import com.epam.socode.util.Constants;
+import java.util.Properties;
 
 /**
  * App configuration for development environment (Profile)
@@ -29,7 +28,7 @@ public class TestAppConfig extends BaseAppConfig {
     public SessionFactory sessionFactory() {
         Configuration configuration = new Configuration()
                 .addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
-                .addAnnotatedClass(VerificationToken.class)
+                .addAnnotatedClass(VerificationKey.class)
                 .setProperty("hibernate.dialect", getDialect())
                 .setProperty("hibernate.connection.url", getHost())
                 .setProperty("hibernate.current_session_context_class", getProvider())

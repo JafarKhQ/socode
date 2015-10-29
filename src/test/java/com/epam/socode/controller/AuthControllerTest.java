@@ -3,14 +3,14 @@ package com.epam.socode.controller;
 import com.epam.socode.annotation.ControllerTest;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.Project;
-import com.epam.socode.domain.VerificationToken;
+import com.epam.socode.domain.VerificationKey;
 import com.epam.socode.request.Signup;
 import com.epam.socode.request.Verify;
 import com.epam.socode.response.ErrorCodes;
 import com.epam.socode.response.Response;
 import com.epam.socode.service.AuthenticationService;
 import com.epam.socode.service.ProjectService;
-import com.epam.socode.service.VerificationTokenService;
+import com.epam.socode.service.ProfileVerificationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -37,7 +37,7 @@ public class AuthControllerTest extends BaseControllerTest {
     ProjectService projectService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    ProfileVerificationService profileVerificationService;
 
     @Autowired
     AuthenticationService authenticationService;
@@ -108,7 +108,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
         Verify verify = new Verify();
         verify.setEmail(email);
-        verify.setVerifykey("dummy_key123456789");
+        verify.setVerifyKey("dummy_key123456789");
 
         MvcResult verficationResult = mockMvc.perform(
                 MockMvcRequestBuilders.post(AuthController.MAPPING_API_AUTH + AuthController.MAPPING_VERIFY)
@@ -254,12 +254,12 @@ public class AuthControllerTest extends BaseControllerTest {
 
     private MvcResult verifyProfile(Profile profile) throws Exception {
         String profileId = profile.getProfileId();
-        VerificationToken verificationToken = verificationTokenService.findVerificationTokenByProfileId(profileId);
-        assertNotNull(verificationToken);
+        VerificationKey verificationKey = profileVerificationService.findVerificationTokenByProfileId(profileId);
+        assertNotNull(verificationKey);
 
         Verify verify = new Verify();
         verify.setEmail(profile.getEmail());
-        verify.setVerifykey(verificationToken.getToken());
+        verify.setVerifyKey(verificationKey.getKey());
 
         return mockMvc.perform(
                 MockMvcRequestBuilders.post(AuthController.MAPPING_API_AUTH + AuthController.MAPPING_VERIFY)
