@@ -1,7 +1,7 @@
 package com.epam.socode.repository.impl;
 
 import com.epam.socode.domain.Profile;
-import com.epam.socode.excepion.ProfileNotFoundException;
+import com.epam.socode.exception.ProfileNotFoundException;
 import com.epam.socode.repository.ProfileRepository;
 import org.hibernate.Query;
 import org.hibernate.Session;

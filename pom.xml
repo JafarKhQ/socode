@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -10,21 +10,29 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <!-- | | Properties | -->
+    <!--
+     |
+     | Properties
+     |
+     -->
     <properties>
         <!-- Spring -->
-        <spring.version>4.2.1.RELEASE</spring.version>
+        <spring.version>4.2.2.RELEASE</spring.version>
         <spring.mongodb.version>1.8.0.RELEASE</spring.mongodb.version>
         <spring.support.version>2.0.8</spring.support.version>
 
-        <!-- Servlet -->
-        <servlet.version>2.5</servlet.version>
+        <!-- Servlet API -->
+        <servlet.api.version>3.1.0</servlet.api.version>
 
         <!-- Hibernate -->
         <hibernate.version>4.2.0.Final</hibernate.version>
 
+        <!-- H2 In Memory DB -->
+        <h2.version>1.4.190</h2.version>
+
         <!-- Logging -->
         <log4j.version>2.4</log4j.version>
+        <slf4j.version>1.7.12</slf4j.version>
 
         <!-- Jackson -->
         <jackson.version>2.6.2</jackson.version>
@@ -42,22 +50,30 @@
 
         <!-- Mail -->
         <javax.mail.version>1.5.4</javax.mail.version>
+
+        <!-- Test -->
+        <junit.version>4.12</junit.version>
+        <mockito.version>1.10.19</mockito.version>
     </properties>
 
-    <!-- | | Dependencies | -->
-    <dependencyManagement>
-        <dependencies>
 
-        </dependencies>
-    </dependencyManagement>
-
-    <!-- | | Dependencies | -->
+    <!--
+    |
+    | Dependencies
+    |
+    -->
     <dependencies>
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -68,8 +84,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-support</artifactId>
             <version>${spring.support.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
 
         <!-- Spring Data -->
         <dependency>
@@ -83,7 +104,6 @@
             <version>${spring.version}</version>
         </dependency>
 
-
         <!-- Hibernate -->
         <dependency>
             <groupId>org.hibernate.ogm</groupId>
@@ -91,11 +111,18 @@
             <version>${hibernate.version}</version>
         </dependency>
 
-        <!-- Servlet -->
+        <!-- H2 In Memory DB -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+
+        <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet.version}</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.api.version}</version>
         </dependency>
 
         <!-- Jackson -->
@@ -126,6 +153,16 @@
             <artifactId>log4j-api</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
 
         <!-- Mail -->
         <dependency>
@@ -134,7 +171,6 @@
             <version>${javax.mail.version}</version>
         </dependency>
 
-
         <!-- Test -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -142,9 +178,26 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
-    <!-- | | Build | -->
+
+    <!--
+    |
+    | Build
+    |
+    -->
     <build>
         <plugins>
             <!-- Set a JDK compiler level -->

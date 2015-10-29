@@ -1,4 +1,4 @@
-package com.epam.socode.excepion;
+package com.epam.socode.exception;
 
 public class ExpiredTokenException extends RuntimeException {
 

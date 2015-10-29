@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.VerificationToken;
-import com.epam.socode.excepion.EmailVerificationException;
+import com.epam.socode.exception.EmailVerificationException;
 import com.epam.socode.repository.VerificationTokenRepository;
 import com.epam.socode.request.Verify;
 import com.epam.socode.service.ProfileService;
@@ -48,5 +48,10 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         }
 
         return profileService.enableProfile(profile);
+    }
+
+    @Override
+    public VerificationToken findVerificationTokenByProfileId(String profileId) {
+        return tokenRepository.findVerificationTokenByProfileId(profileId);
     }
 }

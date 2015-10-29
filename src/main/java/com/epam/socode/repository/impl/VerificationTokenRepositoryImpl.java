@@ -46,4 +46,19 @@ public class VerificationTokenRepositoryImpl implements VerificationTokenReposit
         session.close();
         return verificationToken;
     }
+
+    @Override
+    public VerificationToken findVerificationTokenByProfileId(String profileId) {
+
+        VerificationToken verificationToken = null;
+        Session session = sessionFactory.openSession();
+        Query q = session.createQuery("FROM VerificationToken v WHERE v.profile = '" + profileId + "'");
+        @SuppressWarnings("rawtypes")
+        List queryResult = q.list();
+        if (!CollectionUtils.isEmpty(queryResult)) {
+            verificationToken = (VerificationToken) queryResult.get(0);
+        }
+        session.close();
+        return verificationToken;
+    }
 }

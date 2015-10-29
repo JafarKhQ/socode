@@ -11,4 +11,6 @@ public interface VerificationTokenRepository {
     VerificationToken addVerificationToken(VerificationToken verificationToken);
 
     VerificationToken findVerificationTokenByKey(String verificationKey);
+
+    VerificationToken findVerificationTokenByProfileId(String profileId);
 }

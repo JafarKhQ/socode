@@ -42,6 +42,15 @@ class BaseAppConfig {
     @Value("${database.password}")
     private String password;
 
+    @Value("${database.dialect}")
+    private String dialect;
+
+    @Value("${database.show_sql}")
+    private String showSql;
+
+    @Value("${database.hbm2ddl.auto}")
+    private String hbm2ddlAuto;
+
     @Bean
     public SessionFactory sessionFactory() {
         Configuration configuration = new OgmConfiguration();
@@ -64,5 +73,45 @@ class BaseAppConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    public String getPersistenceUnit() {
+        return persistenceUnit;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public String getCreateDatabase() {
+        return createDatabase;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getDialect() {
+        return dialect;
+    }
+
+    public String getShowSql() {
+        return showSql;
+    }
+
+    public String getHbm2ddlAuto() {
+        return hbm2ddlAuto;
     }
 }

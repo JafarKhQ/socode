@@ -13,6 +13,7 @@ public final class Constants {
 
     private static final String PROPERTY_SOURCE_BASE = "classpath:properties/";
     public static final String PROPERTY_SOURCE_DEV = PROPERTY_SOURCE_BASE + "development.properties";
+    public static final String PROPERTY_SOURCE_TEST = PROPERTY_SOURCE_BASE + "test.properties";
     public static final String PROPERTY_SOURCE_PRO = PROPERTY_SOURCE_BASE + "production.properties";
 
     private Constants() {

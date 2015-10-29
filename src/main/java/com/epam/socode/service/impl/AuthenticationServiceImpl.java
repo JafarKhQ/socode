@@ -1,28 +1,31 @@
 package com.epam.socode.service.impl;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.ProfileToken;
-import com.epam.socode.excepion.ExpiredTokenException;
-import com.epam.socode.excepion.InvalidTokenException;
-import com.epam.socode.excepion.WrongEmailPasswordException;
-import com.epam.socode.repository.AuthenticationRepository;
-import com.epam.socode.request.Login;
-import com.epam.socode.request.Logout;
-import com.epam.socode.service.AuthenticationService;
-import com.epam.socode.service.ProfileService;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.ProfileToken;
+import com.epam.socode.exception.ExpiredTokenException;
+import com.epam.socode.exception.InvalidTokenException;
+import com.epam.socode.exception.ProfileNotFoundException;
+import com.epam.socode.exception.WrongEmailPasswordException;
+import com.epam.socode.repository.AuthenticationRepository;
+import com.epam.socode.request.Login;
+import com.epam.socode.request.Logout;
+import com.epam.socode.service.AuthenticationService;
+import com.epam.socode.service.ProfileService;
+
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private static final Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(AuthenticationServiceImpl.class);
 
     @Autowired
     private AuthenticationRepository authenticationRepository;
@@ -35,8 +38,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String login(Login login) {
-        final Profile profile = profileService.findProfileByEmail(login.getLogin());
-        if (null == profile) {
+        Profile profile = null;
+        try {
+            profile = profileService.findProfileByEmail(login.getLogin());
+        } catch (ProfileNotFoundException e) {
             throw new WrongEmailPasswordException();
         }
 
@@ -94,4 +99,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return String.format("%0" + (data.length * 2) + 'x', new BigInteger(1, data));
     }
 
+    public int getExpirationTimeMin() {
+        return expirationTimeMin;
+    }
+
+    @Override
+    public void setExpirationTimeMin(int expirationTimeMin) {
+        this.expirationTimeMin = expirationTimeMin;
+    }
 }

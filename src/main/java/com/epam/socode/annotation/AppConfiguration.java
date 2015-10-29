@@ -1,15 +1,10 @@
 package com.epam.socode.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
+import com.epam.socode.util.Constants;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.epam.socode.util.Constants;
+import java.lang.annotation.*;
 
 /**
  * An annotation that contain all App Config annotations
@@ -20,6 +15,8 @@ import com.epam.socode.util.Constants;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Configuration
-@ComponentScan(basePackages = { Constants.PACKAGE_SERVICE, Constants.PACKAGE_REPOSITORY, Constants.PACKAGE_LISTENER })
+@ComponentScan(basePackages = {Constants.PACKAGE_SERVICE,
+        Constants.PACKAGE_REPOSITORY,
+        Constants.PACKAGE_LISTENER})
 public @interface AppConfiguration {
 }

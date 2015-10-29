@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author jafar_qaddoumi
  */
 public class Response {
-    private static final int CODE_SUCCESS = 200;
-    private static final String STATUS_FAIL = "FAIL";
-    private static final String STATUS_SUCCESS = "OK";
+    public static final int CODE_SUCCESS = 200;
+    public static final String STATUS_FAIL = "FAIL";
+    public static final String STATUS_SUCCESS = "OK";
 
     @JsonProperty
     private String status;
@@ -40,5 +40,29 @@ public class Response {
         response.statusCode = code;
 
         return response;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

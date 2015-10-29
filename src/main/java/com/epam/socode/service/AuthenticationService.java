@@ -12,4 +12,6 @@ public interface AuthenticationService {
     void logout(Logout logout);
 
     String findProfileIdByToken(String token);
+
+    void setExpirationTimeMin(int expirationTimeMin);
 }

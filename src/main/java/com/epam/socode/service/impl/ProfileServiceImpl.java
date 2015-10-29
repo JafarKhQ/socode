@@ -3,6 +3,8 @@ package com.epam.socode.service.impl;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.Project;
 import com.epam.socode.exception.NotAllowedOperationException;
+import com.epam.socode.exception.ProfileExistException;
+import com.epam.socode.exception.ProfileNotFoundException;
 import com.epam.socode.repository.ProfileRepository;
 import com.epam.socode.request.ProfileUpdate;
 import com.epam.socode.request.Signup;
@@ -30,7 +32,17 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Profile addProfileFromSignup(Signup signup) {
+        try {
+            Profile p = findProfileByEmail(signup.getLogin());
+            if (null != p) {
+                throw new ProfileExistException();
+            }
+        } catch (ProfileNotFoundException e) {
+            // ignore error
+        }
+
         Profile profile = new Profile(signup);
+        profile.setJoinDate(String.valueOf(System.currentTimeMillis()));
         if (Strings.isNotEmpty(signup.getProject())) {
             Project project = projectService.findProjectById(signup.getProject());
             profile.addParticipatedProject(project);

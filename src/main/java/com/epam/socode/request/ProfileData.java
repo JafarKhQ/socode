@@ -3,7 +3,7 @@ package com.epam.socode.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by jafar_qaddoumi on 10/21/15.
+ * @author jafar_qaddoumi
  */
 public class ProfileData {
     @JsonProperty("profile_id")

@@ -13,4 +13,6 @@ public interface VerificationTokenService {
     VerificationToken findVerificationTokenByKey(String verifykey);
 
     Profile verifyProfile(Verify verify);
+
+    VerificationToken findVerificationTokenByProfileId(String profileId);
 }
