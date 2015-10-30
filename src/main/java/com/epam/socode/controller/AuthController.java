@@ -18,7 +18,7 @@ import com.epam.socode.response.Response;
 import com.epam.socode.service.AuthenticationService;
 import com.epam.socode.service.GroupService;
 import com.epam.socode.service.ProfileService;
-import com.epam.socode.service.VerificationTokenService;
+import com.epam.socode.service.ProfileVerificationService;
 
 /**
  * @author jafar_qaddoumi
@@ -34,7 +34,7 @@ class AuthController implements BaseController {
     private GroupService projectService;
 
     @Autowired
-    private VerificationTokenService verificationTokenService;
+    private ProfileVerificationService profileVerificationService;
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -53,7 +53,7 @@ class AuthController implements BaseController {
 
     @RequestMapping(value = MAPPING_VERIFY, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleVerify(@RequestBody Verify verify) {
-        Profile profile = verificationTokenService.verifyProfile(verify);
+        Profile profile = profileVerificationService.verifyProfile(verify);
         return Response.newSuccessResponse(profile);
     }
 

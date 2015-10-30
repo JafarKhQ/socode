@@ -1,23 +1,27 @@
 package com.epam.socode.listener;
 
-import java.util.UUID;
-
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.event.OnRegistrationCompleteEvent;
+import com.epam.socode.service.ProfileVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.event.OnRegistrationCompleteEvent;
-import com.epam.socode.service.VerificationTokenService;
-
+/**
+ * @author Krystian_Balwierz
+ */
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
+
     @Autowired
-    private VerificationTokenService verificationTokenService;
+    private ProfileVerificationService profileVerificationService;
+
     @Autowired
     private MessageSource messageSource;
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -27,13 +31,12 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
-        Profile profile = event.getProfile();
-        String token = UUID.randomUUID().toString();
-        verificationTokenService.createVerificationToken(profile, token);
+        Profile profile = event.getSource();
+        VerificationKey verificationKey = profileVerificationService.createVerificationKey(profile);
 
         String recipientAddress = profile.getEmail();
         String subject = "Registration Confirmation";
-        String confirmationUrl = "/regitrationConfirm.html?token=" + token;
+        String confirmationUrl = "/regitrationConfirm.html?token=" + verificationKey.getKey();
         String message = "Succesful! "; // TODO:
                                         // messageSource.getMessage("message.regSucc",
                                         // null, null);
