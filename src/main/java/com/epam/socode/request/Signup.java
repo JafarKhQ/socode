@@ -10,8 +10,8 @@ public class Signup {
     private String login;
     @JsonProperty("password")
     private String password;
-    @JsonProperty("project")
-    private String project;
+    @JsonProperty("group_id")
+    private String groupId;
 
     public String getLogin() {
         return login;
@@ -29,11 +29,11 @@ public class Signup {
         this.password = password;
     }
 
-    public String getProject() {
-        return project;
+    public String getGroup() {
+        return groupId;
     }
 
-    public void setProject(String project) {
-        this.project = project;
+    public void setGroup(String groupId) {
+        this.groupId = groupId;
     }
 }

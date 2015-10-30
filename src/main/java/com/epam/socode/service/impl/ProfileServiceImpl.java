@@ -1,7 +1,11 @@
 package com.epam.socode.service.impl;
 
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.epam.socode.domain.Group;
 import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
 import com.epam.socode.exception.NotAllowedOperationException;
 import com.epam.socode.exception.ProfileExistException;
 import com.epam.socode.exception.ProfileNotFoundException;
@@ -9,11 +13,8 @@ import com.epam.socode.repository.ProfileRepository;
 import com.epam.socode.request.ProfileUpdate;
 import com.epam.socode.request.Signup;
 import com.epam.socode.service.AuthenticationService;
+import com.epam.socode.service.GroupService;
 import com.epam.socode.service.ProfileService;
-import com.epam.socode.service.ProjectService;
-import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author jafar_qaddoumi
@@ -25,7 +26,7 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private ProjectService projectService;
+    private GroupService groupService;
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -43,9 +44,9 @@ public class ProfileServiceImpl implements ProfileService {
 
         Profile profile = new Profile(signup);
         profile.setJoinDate(String.valueOf(System.currentTimeMillis()));
-        if (Strings.isNotEmpty(signup.getProject())) {
-            Project project = projectService.findProjectById(signup.getProject());
-            profile.addParticipatedProject(project);
+        if (Strings.isNotEmpty(signup.getGroup())) {
+            Group group = groupService.findGroupById(signup.getGroup());
+            profile.addParticipatedGroup(group);
         }
 
         return profileRepository.addProfile(profile);

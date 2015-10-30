@@ -13,7 +13,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.epam.socode.annotation.AppConfiguration;
 import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
+import com.epam.socode.domain.Group;
 import com.epam.socode.domain.VerificationToken;
 import com.epam.socode.util.Constants;
 
@@ -28,7 +28,7 @@ public class TestAppConfig extends BaseAppConfig {
     @Override
     public SessionFactory sessionFactory() {
         Configuration configuration = new Configuration()
-                .addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
+                .addAnnotatedClass(Profile.class).addAnnotatedClass(Group.class)
                 .addAnnotatedClass(VerificationToken.class)
                 .setProperty("hibernate.dialect", getDialect())
                 .setProperty("hibernate.connection.url", getHost())

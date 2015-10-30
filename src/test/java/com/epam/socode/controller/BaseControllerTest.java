@@ -1,13 +1,5 @@
 package com.epam.socode.controller;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
-import com.epam.socode.request.Login;
-import com.epam.socode.request.Logout;
-import com.epam.socode.request.Signup;
-import com.epam.socode.response.Response;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,6 +10,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.epam.socode.domain.Group;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.request.Login;
+import com.epam.socode.request.Logout;
+import com.epam.socode.request.Signup;
+import com.epam.socode.response.Response;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author jafar_qaddoumi
@@ -47,12 +48,12 @@ class BaseControllerTest {
         return mapper.readValue(content, Response.class);
     }
 
-    MvcResult signUpProfile(String email, Project project) throws Exception {
+    MvcResult signUpProfile(String email, Group project) throws Exception {
         Signup signup = new Signup();
         signup.setLogin(email);
         signup.setPassword(password);
         if (project != null) {
-            signup.setProject(project.getProjectId());
+            signup.setGroup(project.getGroupId());
         }
 
         return mockMvc.perform(

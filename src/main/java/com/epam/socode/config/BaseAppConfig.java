@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
+import com.epam.socode.domain.Group;
 import com.epam.socode.domain.VerificationToken;
 
 /**
@@ -61,7 +61,7 @@ class BaseAppConfig {
         configuration.setProperty(OgmProperties.PASSWORD, password);
         configuration.setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
 
-        configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
+        configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Group.class)
                 .addAnnotatedClass(VerificationToken.class);
 
         StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

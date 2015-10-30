@@ -1,16 +1,9 @@
 package com.epam.socode.controller;
 
-import com.epam.socode.annotation.ControllerTest;
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
-import com.epam.socode.domain.VerificationToken;
-import com.epam.socode.request.Signup;
-import com.epam.socode.request.Verify;
-import com.epam.socode.response.ErrorCodes;
-import com.epam.socode.response.Response;
-import com.epam.socode.service.AuthenticationService;
-import com.epam.socode.service.ProjectService;
-import com.epam.socode.service.VerificationTokenService;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,7 +14,17 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.junit.Assert.*;
+import com.epam.socode.annotation.ControllerTest;
+import com.epam.socode.domain.Group;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationToken;
+import com.epam.socode.request.Signup;
+import com.epam.socode.request.Verify;
+import com.epam.socode.response.ErrorCodes;
+import com.epam.socode.response.Response;
+import com.epam.socode.service.AuthenticationService;
+import com.epam.socode.service.GroupService;
+import com.epam.socode.service.VerificationTokenService;
 
 /**
  * @author jafar_qaddoumi
@@ -34,7 +37,7 @@ public class AuthControllerTest extends BaseControllerTest {
     AuthController authController;
 
     @Autowired
-    ProjectService projectService;
+    GroupService groupService;
 
     @Autowired
     VerificationTokenService verificationTokenService;
@@ -43,8 +46,8 @@ public class AuthControllerTest extends BaseControllerTest {
     AuthenticationService authenticationService;
 
     @Test
-    public void singUpWithoutProjectTest() throws Exception {
-        String email = "singUpWithoutProject@email.com";
+    public void singUpWithoutGroupTest() throws Exception {
+        String email = "singUpWithoutGroup@email.com";
 
         Response response = getResponseFromResult(signUpProfile(email, null));
 
@@ -54,7 +57,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
         Profile profile = getProfileFromResponse(response);
         assertEquals(email, profile.getEmail());
-        assertTrue(profile.getParticipatedProjects().size() == 0);
+        assertTrue(profile.getParticipatedGroups().size() == 0);
     }
 
     @Test
@@ -69,20 +72,20 @@ public class AuthControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void singUpWithProjectTest() throws Exception {
-        String email = "singUpWithProject@email.com";
-        Project project = projectService.addProject("singUpWithProjectTest");
+    public void singUpWithGroupTest() throws Exception {
+        String email = "singUpWithGroup@email.com";
+        Group group = groupService.addGroup("singUpWithGroupTest");
 
-        Response response = getResponseFromResult(signUpProfile(email, project));
+        Response response = getResponseFromResult(signUpProfile(email, group));
         assertEquals(Response.STATUS_SUCCESS, response.getStatus());
         assertEquals(Response.CODE_SUCCESS, response.getStatusCode());
         assertNotNull(response.getData());
 
         Profile profile = getProfileFromResponse(response);
         assertEquals(email, profile.getEmail());
-        assertTrue(profile.getParticipatedProjects().size() == 1);
-        if (profile.getParticipatedProjects().size() > 0)
-            assertEquals(project.getProjectId(), profile.getParticipatedProjects().get(0).getProjectId());
+        assertTrue(profile.getParticipatedGroups().size() == 1);
+        if (profile.getParticipatedGroups().size() > 0)
+            assertEquals(group.getGroupId(), profile.getParticipatedGroups().get(0).getGroupId());
     }
 
     @Test
