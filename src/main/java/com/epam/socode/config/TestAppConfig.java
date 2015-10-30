@@ -2,9 +2,6 @@ package com.epam.socode.config;
 
 import com.epam.socode.annotation.AppConfiguration;
 import com.epam.socode.util.Constants;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
@@ -18,7 +15,7 @@ import org.springframework.context.annotation.PropertySource;
 public class TestAppConfig extends BaseAppConfig {
 
     @Override
-    public SessionFactory sessionFactory() {
+    Configuration getSessionFactoryConfiguration() {
         Configuration configuration = new Configuration();
         addAnnotatedClasses(configuration)
                 .setProperty("hibernate.dialect", dialect)
@@ -27,9 +24,6 @@ public class TestAppConfig extends BaseAppConfig {
                 .setProperty("hibernate.show_sql", showSql)
                 .setProperty("hibernate.hbm2ddl.auto", hbm2ddlAuto);
 
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties()).build();
-
-        return configuration.buildSessionFactory(serviceRegistry);
+        return configuration;
     }
 }

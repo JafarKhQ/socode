@@ -58,17 +58,10 @@ class BaseAppConfig {
 
     @Bean
     public SessionFactory sessionFactory() {
-        Configuration configuration = new OgmConfiguration();
-        addAnnotatedClasses(configuration)
-                .setProperty(OgmProperties.DATASTORE_PROVIDER, provider)
-                .setProperty(OgmProperties.HOST, host)
-                .setProperty(OgmProperties.DATABASE, database)
-                .setProperty(OgmProperties.USERNAME, username)
-                .setProperty(OgmProperties.PASSWORD, password)
-                .setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
-
+        final Configuration configuration = getSessionFactoryConfiguration();
         StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties()).build();
+                .applySettings(configuration.getProperties())
+                .build();
 
         return configuration.buildSessionFactory(serviceRegistry);
     }
@@ -89,6 +82,18 @@ class BaseAppConfig {
         mailSender.setJavaMailProperties(getJavaMailSenderProperties());
 
         return mailSender;
+    }
+
+    Configuration getSessionFactoryConfiguration() {
+        Configuration configuration = new OgmConfiguration();
+
+        return addAnnotatedClasses(configuration)
+                .setProperty(OgmProperties.DATASTORE_PROVIDER, provider)
+                .setProperty(OgmProperties.HOST, host)
+                .setProperty(OgmProperties.DATABASE, database)
+                .setProperty(OgmProperties.USERNAME, username)
+                .setProperty(OgmProperties.PASSWORD, password)
+                .setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
     }
 
     Properties getJavaMailSenderProperties() {
