@@ -1,18 +1,12 @@
 package com.epam.socode.config;
 
-import java.util.Properties;
-
+import com.epam.socode.annotation.AppConfiguration;
+import com.epam.socode.util.Constants;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import com.epam.socode.annotation.AppConfiguration;
-import com.epam.socode.util.Constants;
 
 /**
  * App configuration for development environment (Profile)
@@ -27,36 +21,15 @@ public class TestAppConfig extends BaseAppConfig {
     public SessionFactory sessionFactory() {
         Configuration configuration = new Configuration();
         addAnnotatedClasses(configuration)
-                .setProperty("hibernate.dialect", getDialect())
-                .setProperty("hibernate.connection.url", getHost())
-                .setProperty("hibernate.current_session_context_class", getProvider())
-                .setProperty("hibernate.show_sql", getShowSql())
-                .setProperty("hibernate.hbm2ddl.auto", getHbm2ddlAuto());
+                .setProperty("hibernate.dialect", dialect)
+                .setProperty("hibernate.connection.url", host)
+                .setProperty("hibernate.current_session_context_class", provider)
+                .setProperty("hibernate.show_sql", showSql)
+                .setProperty("hibernate.hbm2ddl.auto", hbm2ddlAuto);
 
         StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties()).build();
 
         return configuration.buildSessionFactory(serviceRegistry);
-    }
-
-    @Bean
-    public JavaMailSender mailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(465);
-        mailSender.setProtocol("smtp");
-        mailSender.setUsername("useful.mailer@gmail.com");
-        mailSender.setPassword("usefulMailer123#@!");
-
-        Properties javaMailProperties = new Properties();
-        javaMailProperties.setProperty("mail.smtp.auth", "true");
-        javaMailProperties.setProperty("mail.smtp.starttls.enable", "false");
-        javaMailProperties.setProperty("mail.smtp.quitwait", "false");
-        javaMailProperties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        javaMailProperties.setProperty("mail.smtp.socketFactory.fallback", "false");
-        javaMailProperties.setProperty("mail.debug", "true");
-        mailSender.setJavaMailProperties(javaMailProperties);
-
-        return mailSender;
     }
 }
