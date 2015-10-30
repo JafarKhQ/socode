@@ -1,10 +1,7 @@
 package com.epam.socode.config;
 
-import com.epam.socode.annotation.AppConfiguration;
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
-import com.epam.socode.domain.VerificationKey;
-import com.epam.socode.util.Constants;
+import java.util.Properties;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -14,7 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import java.util.Properties;
+import com.epam.socode.annotation.AppConfiguration;
+import com.epam.socode.util.Constants;
 
 /**
  * App configuration for development environment (Profile)

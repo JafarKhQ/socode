@@ -1,8 +1,5 @@
 package com.epam.socode.config;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
-import com.epam.socode.domain.VerificationKey;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -12,6 +9,10 @@ import org.hibernate.ogm.cfg.OgmProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+import com.epam.socode.domain.Group;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
 
 /**
  * Common App Configuration for All environments (Profiles)
@@ -107,7 +108,7 @@ class BaseAppConfig {
     }
 
     Configuration addAnnotatedClasses(Configuration configuration) {
-        return configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
+        return configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Group.class)
                 .addAnnotatedClass(VerificationKey.class);
     }
 }

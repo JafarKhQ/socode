@@ -9,36 +9,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
-import com.epam.socode.domain.Project;
-import com.epam.socode.repository.ProjectRepository;
+import com.epam.socode.domain.Group;
+import com.epam.socode.repository.GroupRepository;
 
 @Repository
-public class ProjectRepositoryImpl implements ProjectRepository {
+public class GroupRepositoryImpl implements GroupRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public Project findProjectById(String projectId) {
-        Project project = null;
+    public Group findGroupById(String groupId) {
+        Group group = null;
         Session session = sessionFactory.openSession();
-        Query q = session.createQuery("FROM Project p WHERE p.projectId = '" + projectId + "'");
+        Query q = session.createQuery("FROM Group p WHERE p.groupId = '" + groupId + "'");
         @SuppressWarnings("rawtypes")
         List queryResult = q.list();
         if (!CollectionUtils.isEmpty(queryResult)) {
-            project = (Project) queryResult.get(0);
+            group = (Group) queryResult.get(0);
         }
         session.close();
-        return project;
+        return group;
     }
 
     @Override
-    public Project addProject(Project project) {
+    public Group addGroup(Group group) {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
-        session.persist(project);
+        session.persist(group);
         session.getTransaction().commit();
         session.close();
-        return project;
+        return group;
     }
 }
