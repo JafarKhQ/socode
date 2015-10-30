@@ -24,11 +24,11 @@ import java.util.Properties;
 @AppConfiguration
 @PropertySource(Constants.PROPERTY_SOURCE_TEST)
 public class TestAppConfig extends BaseAppConfig {
+
     @Override
     public SessionFactory sessionFactory() {
-        Configuration configuration = new Configuration()
-                .addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
-                .addAnnotatedClass(VerificationKey.class)
+        Configuration configuration = new Configuration();
+        addAnnotatedClasses(configuration)
                 .setProperty("hibernate.dialect", getDialect())
                 .setProperty("hibernate.connection.url", getHost())
                 .setProperty("hibernate.current_session_context_class", getProvider())

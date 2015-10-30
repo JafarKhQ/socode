@@ -20,9 +20,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 class BaseAppConfig {
 
-    @Value("${database.config}")
-    private String persistenceUnit;
-
     @Value("${database.provider}")
     private String provider;
 
@@ -53,15 +50,14 @@ class BaseAppConfig {
     @Bean
     public SessionFactory sessionFactory() {
         Configuration configuration = new OgmConfiguration();
-        configuration.setProperty(OgmProperties.DATASTORE_PROVIDER, provider);
-        configuration.setProperty(OgmProperties.HOST, host);
-        configuration.setProperty(OgmProperties.DATABASE, database);
-        configuration.setProperty(OgmProperties.USERNAME, username);
-        configuration.setProperty(OgmProperties.PASSWORD, password);
-        configuration.setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
 
-        configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
-                .addAnnotatedClass(VerificationKey.class);
+        addAnnotatedClasses(configuration)
+                .setProperty(OgmProperties.DATASTORE_PROVIDER, provider)
+                .setProperty(OgmProperties.HOST, host)
+                .setProperty(OgmProperties.DATABASE, database)
+                .setProperty(OgmProperties.USERNAME, username)
+                .setProperty(OgmProperties.PASSWORD, password)
+                .setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
 
         StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties()).build();
@@ -72,10 +68,6 @@ class BaseAppConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    public String getPersistenceUnit() {
-        return persistenceUnit;
     }
 
     public String getProvider() {
@@ -112,5 +104,10 @@ class BaseAppConfig {
 
     public String getHbm2ddlAuto() {
         return hbm2ddlAuto;
+    }
+
+    Configuration addAnnotatedClasses(Configuration configuration) {
+        return configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
+                .addAnnotatedClass(VerificationKey.class);
     }
 }
