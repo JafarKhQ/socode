@@ -1,5 +1,13 @@
 package com.epam.socode.controller;
 
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.WorkGroup;
+import com.epam.socode.request.Login;
+import com.epam.socode.request.Logout;
+import com.epam.socode.request.Signup;
+import com.epam.socode.response.Response;
+import com.epam.socode.util.Utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,26 +19,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.epam.socode.domain.WorkGroup;
-import com.epam.socode.domain.Profile;
-import com.epam.socode.request.Login;
-import com.epam.socode.request.Logout;
-import com.epam.socode.request.Signup;
-import com.epam.socode.response.Response;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * @author jafar_qaddoumi
  */
 class BaseControllerTest {
     static final String password = "my_crazy_password";
-
-    static ObjectMapper mapper = new ObjectMapper();
-
-    static {
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
+    static final ObjectMapper mapper = Utils.appObjectMapper();
 
     @Autowired
     WebApplicationContext appContext;
