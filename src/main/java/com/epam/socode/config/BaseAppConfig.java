@@ -125,10 +125,7 @@ class BaseAppConfig {
         Properties javaMailProperties = new Properties();
 
         javaMailProperties.setProperty("mail.smtp.auth", "true");
-        javaMailProperties.setProperty("mail.smtp.starttls.enable", "false");
-        javaMailProperties.setProperty("mail.smtp.quitwait", "false");
-        javaMailProperties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        javaMailProperties.setProperty("mail.smtp.socketFactory.fallback", "false");
+        javaMailProperties.setProperty("mail.smtp.starttls.enable", "true");
         javaMailProperties.setProperty("mail.debug", emailDebug);
 
         return javaMailProperties;
