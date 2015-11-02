@@ -1,5 +1,8 @@
 package com.epam.socode.config;
 
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.domain.WorkGroup;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -9,10 +12,10 @@ import org.hibernate.ogm.cfg.OgmProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
-import com.epam.socode.domain.VerificationToken;
+import java.util.Properties;
 
 /**
  * Common App Configuration for All environments (Profiles)
@@ -21,97 +24,110 @@ import com.epam.socode.domain.VerificationToken;
  */
 class BaseAppConfig {
 
-    @Value("${database.config}")
-    private String persistenceUnit;
-
     @Value("${database.provider}")
-    private String provider;
-
+    String databaseProvider;
     @Value("${database.create_database}")
-    private String createDatabase;
-
+    String createDatabase;
     @Value("${database.host}")
-    private String host;
-
+    String databaseHost;
     @Value("${database.database}")
-    private String database;
-
+    String database;
     @Value("${database.username}")
-    private String username;
-
+    String databaseUsername;
     @Value("${database.password}")
-    private String password;
-
+    String databasePassword;
     @Value("${database.dialect}")
-    private String dialect;
-
+    String dialect;
     @Value("${database.show_sql}")
-    private String showSql;
-
+    String showSql;
     @Value("${database.hbm2ddl.auto}")
-    private String hbm2ddlAuto;
+    String hbm2ddlAuto;
+
+    @Value("${email.port}")
+    int emailPort;
+    @Value("${email.host}")
+    String emailHost;
+    @Value("${email.protocol}")
+    String emailProtocol;
+    @Value("${email.username}")
+    String emailUsername;
+    @Value("${email.password}")
+    String emailPassword;
+    @Value("${email.debug}")
+    String emailDebug;
 
     @Bean
     public SessionFactory sessionFactory() {
-        Configuration configuration = new OgmConfiguration();
-        configuration.setProperty(OgmProperties.DATASTORE_PROVIDER, provider);
-        configuration.setProperty(OgmProperties.HOST, host);
-        configuration.setProperty(OgmProperties.DATABASE, database);
-        configuration.setProperty(OgmProperties.USERNAME, username);
-        configuration.setProperty(OgmProperties.PASSWORD, password);
-        configuration.setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
-
-        configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Project.class)
-                .addAnnotatedClass(VerificationToken.class);
-
+        final Configuration configuration = getSessionFactoryConfiguration();
         StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties()).build();
+                .applySettings(configuration.getProperties())
+                .build();
 
         return configuration.buildSessionFactory(serviceRegistry);
     }
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    public String getPersistenceUnit() {
-        return persistenceUnit;
+    @Bean
+    public JavaMailSender javaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(emailHost);
+        mailSender.setPort(emailPort);
+        mailSender.setProtocol(emailProtocol);
+        mailSender.setUsername(emailUsername);
+        mailSender.setPassword(emailPassword);
+        mailSender.setJavaMailProperties(getJavaMailSenderProperties());
+
+        return mailSender;
     }
 
-    public String getProvider() {
-        return provider;
+    /**
+     * Create a Hibernate Configuration for SessionFactory,
+     * override this method to chane the configurations for each profile
+     * or use java properties files if possible
+     *
+     * @return Hibernate Configuration for SessionFactory
+     */
+    Configuration getSessionFactoryConfiguration() {
+        Configuration configuration = new OgmConfiguration();
+
+        return addAnnotatedClasses(configuration)
+                .setProperty(OgmProperties.DATASTORE_PROVIDER, databaseProvider)
+                .setProperty(OgmProperties.HOST, databaseHost)
+                .setProperty(OgmProperties.DATABASE, database)
+                .setProperty(OgmProperties.USERNAME, databaseUsername)
+                .setProperty(OgmProperties.PASSWORD, databasePassword)
+                .setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
     }
 
-    public String getCreateDatabase() {
-        return createDatabase;
+    /**
+     * Add Hibernate Annotated Classes to the Hibernate Configuration
+     *
+     * @param configuration Hibernate Configuration
+     * @return Hibernate Configuration
+     */
+    final Configuration addAnnotatedClasses(Configuration configuration) {
+        return configuration
+                .addAnnotatedClass(Profile.class)
+                .addAnnotatedClass(WorkGroup.class)
+                .addAnnotatedClass(VerificationKey.class);
     }
 
-    public String getHost() {
-        return host;
-    }
+    /**
+     * Returns the properties for Java Mail
+     *
+     * @return Java Mail Properties object
+     */
+    final Properties getJavaMailSenderProperties() {
+        Properties javaMailProperties = new Properties();
 
-    public String getDatabase() {
-        return database;
-    }
+        javaMailProperties.setProperty("mail.smtp.auth", "true");
+        javaMailProperties.setProperty("mail.smtp.starttls.enable", "true");
+        javaMailProperties.setProperty("mail.debug", emailDebug);
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getDialect() {
-        return dialect;
-    }
-
-    public String getShowSql() {
-        return showSql;
-    }
-
-    public String getHbm2ddlAuto() {
-        return hbm2ddlAuto;
+        return javaMailProperties;
     }
 }

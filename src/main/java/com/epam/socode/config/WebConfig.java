@@ -1,8 +1,7 @@
 package com.epam.socode.config;
 
 import com.epam.socode.annotation.WebConfiguration;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.epam.socode.util.Utils;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -21,12 +20,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         super.configureMessageConverters(converters);
 
-        // Jackson object mapper
-        final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        final ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        converter.setObjectMapper(objectMapper);
-
-        converters.add(converter);
+        // Jackson message converter
+        converters.add(
+                new MappingJackson2HttpMessageConverter(
+                        Utils.appObjectMapper()
+                ));
     }
 }

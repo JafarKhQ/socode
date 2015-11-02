@@ -1,22 +1,13 @@
 package com.epam.socode.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.GenericGenerator;
-
 import com.epam.socode.request.Signup;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jafar_qaddoumi
@@ -59,11 +50,12 @@ public class Profile {
     @JsonProperty("total_score")
     private Long totalScore;
 
-    @ManyToMany(targetEntity = Project.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "Profile_Project", joinColumns = { @JoinColumn(name = "profileId") }, inverseJoinColumns = {
-            @JoinColumn(name = "projectId") })
+    @ManyToMany(targetEntity = WorkGroup.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "Profile_Group",
+            joinColumns = {@JoinColumn(name = "profileId")},
+            inverseJoinColumns = {@JoinColumn(name = "groupId")})
     @JsonProperty("participated")
-    public List<Project> participatedProjects = new ArrayList<>();
+    public List<WorkGroup> participatedWorkGroup = new ArrayList<>();
 
     public Profile() {
     }
@@ -138,12 +130,12 @@ public class Profile {
         this.joinDate = joinDate;
     }
 
-    public List<Project> getParticipatedProjects() {
-        return participatedProjects;
+    public List<WorkGroup> getParticipatedGroups() {
+        return participatedWorkGroup;
     }
 
-    public void setParticipatedProjects(List<Project> participatedProjects) {
-        this.participatedProjects = participatedProjects;
+    public void setParticipatedWorkGroup(List<WorkGroup> participatedWorkGroup) {
+        this.participatedWorkGroup = participatedWorkGroup;
     }
 
     public Long getCommentLikes() {
@@ -162,7 +154,7 @@ public class Profile {
         this.totalScore = totalScore;
     }
 
-    public void addParticipatedProject(Project participatedProject) {
-        this.participatedProjects.add(participatedProject);
+    public void addParticipatedGroup(WorkGroup participatedWorkGroup) {
+        this.participatedWorkGroup.add(participatedWorkGroup);
     }
 }

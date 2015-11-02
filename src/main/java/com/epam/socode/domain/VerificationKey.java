@@ -1,21 +1,15 @@
 package com.epam.socode.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
-public class VerificationToken {
+public class VerificationKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String token;
+    private String key;
 
     @OneToOne(targetEntity = Profile.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
@@ -23,13 +17,12 @@ public class VerificationToken {
 
     private boolean verified;
 
-    public VerificationToken() {
+    public VerificationKey() {
         super();
     }
 
-    public VerificationToken(String token, Profile profile) {
-        super();
-        this.token = token;
+    public VerificationKey(String key, Profile profile) {
+        this.key = key;
         this.profile = profile;
         this.verified = false;
     }
@@ -42,12 +35,12 @@ public class VerificationToken {
         this.id = id;
     }
 
-    public String getToken() {
-        return token;
+    public String getKey() {
+        return key;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public Profile getProfile() {

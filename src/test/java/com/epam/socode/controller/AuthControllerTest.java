@@ -1,16 +1,10 @@
 package com.epam.socode.controller;
 
-import com.epam.socode.annotation.ControllerTest;
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.Project;
-import com.epam.socode.domain.VerificationToken;
-import com.epam.socode.request.Signup;
-import com.epam.socode.request.Verify;
-import com.epam.socode.response.ErrorCodes;
-import com.epam.socode.response.Response;
-import com.epam.socode.service.AuthenticationService;
-import com.epam.socode.service.ProjectService;
-import com.epam.socode.service.VerificationTokenService;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import com.epam.socode.domain.WorkGroup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,7 +15,16 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.junit.Assert.*;
+import com.epam.socode.annotation.ControllerTest;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.request.Signup;
+import com.epam.socode.request.Verify;
+import com.epam.socode.response.ErrorCodes;
+import com.epam.socode.response.Response;
+import com.epam.socode.service.AuthenticationService;
+import com.epam.socode.service.GroupService;
+import com.epam.socode.service.ProfileVerificationService;
 
 /**
  * @author jafar_qaddoumi
@@ -34,17 +37,17 @@ public class AuthControllerTest extends BaseControllerTest {
     AuthController authController;
 
     @Autowired
-    ProjectService projectService;
+    GroupService groupService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    ProfileVerificationService profileVerificationService;
 
     @Autowired
     AuthenticationService authenticationService;
 
     @Test
-    public void singUpWithoutProjectTest() throws Exception {
-        String email = "singUpWithoutProject@email.com";
+    public void singUpWithoutGroupTest() throws Exception {
+        String email = "singUpWithoutGroup@email.com";
 
         Response response = getResponseFromResult(signUpProfile(email, null));
 
@@ -54,7 +57,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
         Profile profile = getProfileFromResponse(response);
         assertEquals(email, profile.getEmail());
-        assertTrue(profile.getParticipatedProjects().size() == 0);
+        assertTrue(profile.getParticipatedGroups().size() == 0);
     }
 
     @Test
@@ -69,20 +72,20 @@ public class AuthControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void singUpWithProjectTest() throws Exception {
-        String email = "singUpWithProject@email.com";
-        Project project = projectService.addProject("singUpWithProjectTest");
+    public void singUpWithGroupTest() throws Exception {
+        String email = "singUpWithGroup@email.com";
+        WorkGroup workGroup = groupService.addGroup("singUpWithGroupTest");
 
-        Response response = getResponseFromResult(signUpProfile(email, project));
+        Response response = getResponseFromResult(signUpProfile(email, workGroup));
         assertEquals(Response.STATUS_SUCCESS, response.getStatus());
         assertEquals(Response.CODE_SUCCESS, response.getStatusCode());
         assertNotNull(response.getData());
 
         Profile profile = getProfileFromResponse(response);
         assertEquals(email, profile.getEmail());
-        assertTrue(profile.getParticipatedProjects().size() == 1);
-        if (profile.getParticipatedProjects().size() > 0)
-            assertEquals(project.getProjectId(), profile.getParticipatedProjects().get(0).getProjectId());
+        assertTrue(profile.getParticipatedGroups().size() == 1);
+        if (profile.getParticipatedGroups().size() > 0)
+            assertEquals(workGroup.getGroupId(), profile.getParticipatedGroups().get(0).getGroupId());
     }
 
     @Test
@@ -108,7 +111,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
         Verify verify = new Verify();
         verify.setEmail(email);
-        verify.setVerifykey("dummy_key123456789");
+        verify.setVerifyKey("dummy_key123456789");
 
         MvcResult verficationResult = mockMvc.perform(
                 MockMvcRequestBuilders.post(AuthController.MAPPING_API_AUTH + AuthController.MAPPING_VERIFY)
@@ -254,12 +257,12 @@ public class AuthControllerTest extends BaseControllerTest {
 
     private MvcResult verifyProfile(Profile profile) throws Exception {
         String profileId = profile.getProfileId();
-        VerificationToken verificationToken = verificationTokenService.findVerificationTokenByProfileId(profileId);
-        assertNotNull(verificationToken);
+        VerificationKey verificationKey = profileVerificationService.findVerificationTokenByProfileId(profileId);
+        assertNotNull(verificationKey);
 
         Verify verify = new Verify();
         verify.setEmail(profile.getEmail());
-        verify.setVerifykey(verificationToken.getToken());
+        verify.setVerifyKey(verificationKey.getKey());
 
         return mockMvc.perform(
                 MockMvcRequestBuilders.post(AuthController.MAPPING_API_AUTH + AuthController.MAPPING_VERIFY)
