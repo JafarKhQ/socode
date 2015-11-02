@@ -19,8 +19,8 @@ public class TestAppConfig extends BaseAppConfig {
         Configuration configuration = new Configuration();
         addAnnotatedClasses(configuration)
                 .setProperty("hibernate.dialect", dialect)
-                .setProperty("hibernate.connection.url", host)
-                .setProperty("hibernate.current_session_context_class", provider)
+                .setProperty("hibernate.connection.url", databaseHost)
+                .setProperty("hibernate.current_session_context_class", databaseProvider)
                 .setProperty("hibernate.show_sql", showSql)
                 .setProperty("hibernate.hbm2ddl.auto", hbm2ddlAuto);
 

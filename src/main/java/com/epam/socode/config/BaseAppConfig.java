@@ -1,8 +1,8 @@
 package com.epam.socode.config;
 
-import com.epam.socode.domain.WorkGroup;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.domain.WorkGroup;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -25,17 +25,17 @@ import java.util.Properties;
 class BaseAppConfig {
 
     @Value("${database.provider}")
-    String provider;
+    String databaseProvider;
     @Value("${database.create_database}")
     String createDatabase;
     @Value("${database.host}")
-    String host;
+    String databaseHost;
     @Value("${database.database}")
     String database;
     @Value("${database.username}")
-    String username;
+    String databaseUsername;
     @Value("${database.password}")
-    String password;
+    String databasePassword;
     @Value("${database.dialect}")
     String dialect;
     @Value("${database.show_sql}")
@@ -72,7 +72,7 @@ class BaseAppConfig {
     }
 
     @Bean
-    public JavaMailSender mailSender() {
+    public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(emailHost);
         mailSender.setPort(emailPort);
@@ -84,19 +84,44 @@ class BaseAppConfig {
         return mailSender;
     }
 
+    /**
+     * Create a Hibernate Configuration for SessionFactory,
+     * override this method to chane the configurations for each profile
+     * or use java properties files if possible
+     *
+     * @return Hibernate Configuration for SessionFactory
+     */
     Configuration getSessionFactoryConfiguration() {
         Configuration configuration = new OgmConfiguration();
 
         return addAnnotatedClasses(configuration)
-                .setProperty(OgmProperties.DATASTORE_PROVIDER, provider)
-                .setProperty(OgmProperties.HOST, host)
+                .setProperty(OgmProperties.DATASTORE_PROVIDER, databaseProvider)
+                .setProperty(OgmProperties.HOST, databaseHost)
                 .setProperty(OgmProperties.DATABASE, database)
-                .setProperty(OgmProperties.USERNAME, username)
-                .setProperty(OgmProperties.PASSWORD, password)
+                .setProperty(OgmProperties.USERNAME, databaseUsername)
+                .setProperty(OgmProperties.PASSWORD, databasePassword)
                 .setProperty(OgmProperties.CREATE_DATABASE, createDatabase);
     }
 
-    Properties getJavaMailSenderProperties() {
+    /**
+     * Add Hibernate Annotated Classes to the Hibernate Configuration
+     *
+     * @param configuration Hibernate Configuration
+     * @return Hibernate Configuration
+     */
+    final Configuration addAnnotatedClasses(Configuration configuration) {
+        return configuration
+                .addAnnotatedClass(Profile.class)
+                .addAnnotatedClass(WorkGroup.class)
+                .addAnnotatedClass(VerificationKey.class);
+    }
+
+    /**
+     * Returns the properties for Java Mail
+     *
+     * @return Java Mail Properties object
+     */
+    final Properties getJavaMailSenderProperties() {
         Properties javaMailProperties = new Properties();
 
         javaMailProperties.setProperty("mail.smtp.auth", "true");
@@ -107,10 +132,5 @@ class BaseAppConfig {
         javaMailProperties.setProperty("mail.debug", emailDebug);
 
         return javaMailProperties;
-    }
-
-    final Configuration addAnnotatedClasses(Configuration configuration) {
-        return configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(WorkGroup.class)
-                .addAnnotatedClass(VerificationKey.class);
     }
 }
