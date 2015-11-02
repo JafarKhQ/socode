@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.epam.socode.domain.Group;
+import com.epam.socode.domain.WorkGroup;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.request.Login;
 import com.epam.socode.request.Logout;
@@ -48,7 +48,7 @@ class BaseControllerTest {
         return mapper.readValue(content, Response.class);
     }
 
-    MvcResult signUpProfile(String email, Group project) throws Exception {
+    MvcResult signUpProfile(String email, WorkGroup project) throws Exception {
         Signup signup = new Signup();
         signup.setLogin(email);
         signup.setPassword(password);

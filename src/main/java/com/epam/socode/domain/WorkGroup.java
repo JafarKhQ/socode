@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author jafar_qaddoumi
  */
 @Entity
-public class Group {
+public class WorkGroup {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -23,10 +23,10 @@ public class Group {
     @JsonProperty("group_name")
     private String groupName;
 
-    public Group() {
+    public WorkGroup() {
     }
 
-    public Group(String groupName) {
+    public WorkGroup(String groupName) {
         this.groupName = groupName;
     }
 

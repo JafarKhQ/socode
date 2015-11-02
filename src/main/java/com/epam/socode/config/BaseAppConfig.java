@@ -1,6 +1,6 @@
 package com.epam.socode.config;
 
-import com.epam.socode.domain.Group;
+import com.epam.socode.domain.WorkGroup;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.VerificationKey;
 import org.hibernate.SessionFactory;
@@ -110,7 +110,7 @@ class BaseAppConfig {
     }
 
     final Configuration addAnnotatedClasses(Configuration configuration) {
-        return configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(Group.class)
+        return configuration.addAnnotatedClass(Profile.class).addAnnotatedClass(WorkGroup.class)
                 .addAnnotatedClass(VerificationKey.class);
     }
 }

@@ -59,11 +59,12 @@ public class Profile {
     @JsonProperty("total_score")
     private Long totalScore;
 
-    @ManyToMany(targetEntity = Group.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "Profile_Group", joinColumns = { @JoinColumn(name = "profileId") }, inverseJoinColumns = {
-            @JoinColumn(name = "projectId") })
+    @ManyToMany(targetEntity = WorkGroup.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "Profile_Group",
+            joinColumns = { @JoinColumn(name = "profileId") },
+            inverseJoinColumns = { @JoinColumn(name = "groupId") })
     @JsonProperty("participated")
-    public List<Group> participatedGroup = new ArrayList<>();
+    public List<WorkGroup> participatedWorkGroup = new ArrayList<>();
 
     public Profile() {
     }
@@ -138,12 +139,12 @@ public class Profile {
         this.joinDate = joinDate;
     }
 
-    public List<Group> getParticipatedGroups() {
-        return participatedGroup;
+    public List<WorkGroup> getParticipatedGroups() {
+        return participatedWorkGroup;
     }
 
-    public void setParticipatedGroup(List<Group> participatedGroup) {
-        this.participatedGroup = participatedGroup;
+    public void setParticipatedWorkGroup(List<WorkGroup> participatedWorkGroup) {
+        this.participatedWorkGroup = participatedWorkGroup;
     }
 
     public Long getCommentLikes() {
@@ -162,7 +163,7 @@ public class Profile {
         this.totalScore = totalScore;
     }
 
-    public void addParticipatedGroup(Group participatedGroup) {
-        this.participatedGroup.add(participatedGroup);
+    public void addParticipatedGroup(WorkGroup participatedWorkGroup) {
+        this.participatedWorkGroup.add(participatedWorkGroup);
     }
 }

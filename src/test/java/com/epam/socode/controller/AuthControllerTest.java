@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.epam.socode.domain.WorkGroup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import com.epam.socode.annotation.ControllerTest;
-import com.epam.socode.domain.Group;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.VerificationKey;
 import com.epam.socode.request.Signup;
@@ -74,9 +74,9 @@ public class AuthControllerTest extends BaseControllerTest {
     @Test
     public void singUpWithGroupTest() throws Exception {
         String email = "singUpWithGroup@email.com";
-        Group group = groupService.addGroup("singUpWithGroupTest");
+        WorkGroup workGroup = groupService.addGroup("singUpWithGroupTest");
 
-        Response response = getResponseFromResult(signUpProfile(email, group));
+        Response response = getResponseFromResult(signUpProfile(email, workGroup));
         assertEquals(Response.STATUS_SUCCESS, response.getStatus());
         assertEquals(Response.CODE_SUCCESS, response.getStatusCode());
         assertNotNull(response.getData());
@@ -85,7 +85,7 @@ public class AuthControllerTest extends BaseControllerTest {
         assertEquals(email, profile.getEmail());
         assertTrue(profile.getParticipatedGroups().size() == 1);
         if (profile.getParticipatedGroups().size() > 0)
-            assertEquals(group.getGroupId(), profile.getParticipatedGroups().get(0).getGroupId());
+            assertEquals(workGroup.getGroupId(), profile.getParticipatedGroups().get(0).getGroupId());
     }
 
     @Test

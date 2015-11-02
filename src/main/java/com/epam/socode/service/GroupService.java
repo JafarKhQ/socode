@@ -1,12 +1,12 @@
 package com.epam.socode.service;
 
-import com.epam.socode.domain.Group;
+import com.epam.socode.domain.WorkGroup;
 
 /**
  * @author jafar_qaddoumi
  */
 public interface GroupService {
-    Group addGroup(String groupName);
+    WorkGroup addGroup(String groupName);
 
-    Group findGroupById(String groupId);
+    WorkGroup findGroupById(String groupId);
 }

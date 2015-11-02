@@ -1,12 +1,12 @@
 package com.epam.socode.repository;
 
-import com.epam.socode.domain.Group;
+import com.epam.socode.domain.WorkGroup;
 
 /**
  * @author jafar_qaddoumi
  */
 public interface GroupRepository {
-    Group addGroup(Group group);
+    WorkGroup addGroup(WorkGroup workGroup);
 
-    Group findGroupById(String groupId);
+    WorkGroup findGroupById(String groupId);
 }

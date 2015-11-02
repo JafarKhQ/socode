@@ -45,7 +45,7 @@ class AuthController implements BaseController {
     @RequestMapping(value = MAPPING_SIGNUP, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleSignup(@RequestBody Signup signup) {
         // TODO: remove test project
-        projectService.addGroup("Test Group");
+        projectService.addGroup("Test WorkGroup");
         Profile result = profileService.addProfileFromSignup(signup);
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(result));
         return Response.newSuccessResponse(result);
