@@ -1,22 +1,13 @@
 package com.epam.socode.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.GenericGenerator;
-
 import com.epam.socode.request.Signup;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jafar_qaddoumi
@@ -61,8 +52,8 @@ public class Profile {
 
     @ManyToMany(targetEntity = WorkGroup.class, fetch = FetchType.EAGER)
     @JoinTable(name = "Profile_Group",
-            joinColumns = { @JoinColumn(name = "profileId") },
-            inverseJoinColumns = { @JoinColumn(name = "groupId") })
+            joinColumns = {@JoinColumn(name = "profileId")},
+            inverseJoinColumns = {@JoinColumn(name = "groupId")})
     @JsonProperty("participated")
     public List<WorkGroup> participatedWorkGroup = new ArrayList<>();
 
