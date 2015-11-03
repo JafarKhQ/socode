@@ -3,6 +3,10 @@ package com.epam.socode.config;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.VerificationKey;
 import com.epam.socode.domain.WorkGroup;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -82,6 +86,23 @@ class BaseAppConfig {
         mailSender.setJavaMailProperties(getJavaMailSenderProperties());
 
         return mailSender;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper(){
+        final ObjectMapper om = new ObjectMapper();
+
+        // Ignore null objects (null objects will not presented in the JSON String)
+        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        // Ignore all Class properties (setters, getters, isGetters, methods and fields)
+        // from serialisation and deserialization
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+
+        // include all fields in serialisation and deserialization
+        om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        return om;
     }
 
     /**

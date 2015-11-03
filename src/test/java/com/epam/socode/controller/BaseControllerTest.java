@@ -6,7 +6,6 @@ import com.epam.socode.request.Login;
 import com.epam.socode.request.Logout;
 import com.epam.socode.request.Signup;
 import com.epam.socode.response.Response;
-import com.epam.socode.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,9 @@ import org.springframework.web.context.WebApplicationContext;
  */
 class BaseControllerTest {
     static final String password = "my_crazy_password";
-    static final ObjectMapper mapper = Utils.appObjectMapper();
 
+    @Autowired
+    ObjectMapper mapper;
     @Autowired
     WebApplicationContext appContext;
 

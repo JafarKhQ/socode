@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * App configuration for development environment (Profile)
+ * App configuration for Unit Testing
  *
  * @author jafar_qaddoumi
  */
