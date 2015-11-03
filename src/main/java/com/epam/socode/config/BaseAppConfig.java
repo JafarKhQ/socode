@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.util.Strings;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -48,7 +49,7 @@ class BaseAppConfig {
     String hbm2ddlAuto;
 
     @Value("${email.port}")
-    int emailPort;
+    String emailPort;
     @Value("${email.host}")
     String emailHost;
     @Value("${email.protocol}")
@@ -77,9 +78,13 @@ class BaseAppConfig {
 
     @Bean
     public JavaMailSender javaMailSender() {
+        if (Strings.isEmpty(emailHost)) {
+            return null;
+        }
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(emailHost);
-        mailSender.setPort(emailPort);
+        mailSender.setPort(Integer.valueOf(emailPort));
         mailSender.setProtocol(emailProtocol);
         mailSender.setUsername(emailUsername);
         mailSender.setPassword(emailPassword);
@@ -89,7 +94,7 @@ class BaseAppConfig {
     }
 
     @Bean
-    public ObjectMapper objectMapper(){
+    public ObjectMapper objectMapper() {
         final ObjectMapper om = new ObjectMapper();
 
         // Ignore null objects (null objects will not presented in the JSON String)
