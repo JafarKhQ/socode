@@ -16,6 +16,9 @@ public final class Constants {
     public static final String PROPERTY_SOURCE_TEST = PROPERTY_SOURCE_BASE + "test.properties";
     public static final String PROPERTY_SOURCE_PRO = PROPERTY_SOURCE_BASE + "production.properties";
 
+    private static final String MESSAGE_SOURCE_BASE = "classpath:i18n/";
+    public static final String MESSAGE_SOURCE_EMAILS = MESSAGE_SOURCE_BASE + "emails";
+
     private Constants() {
         throw new IllegalAccessError();
     }
