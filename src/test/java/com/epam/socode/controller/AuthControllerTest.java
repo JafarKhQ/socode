@@ -36,9 +36,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
     @InjectMocks
     AuthController authController;
-    
-    @InjectMocks
-    GroupController groupController;
+   
 
     @Autowired
     GroupService groupService;

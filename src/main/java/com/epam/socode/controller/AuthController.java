@@ -16,7 +16,6 @@ import com.epam.socode.request.Signup;
 import com.epam.socode.request.Verify;
 import com.epam.socode.response.Response;
 import com.epam.socode.service.AuthenticationService;
-import com.epam.socode.service.GroupService;
 import com.epam.socode.service.ProfileService;
 import com.epam.socode.service.ProfileVerificationService;
 
@@ -29,9 +28,6 @@ class AuthController implements BaseController {
 
     @Autowired
     private ProfileService profileService;
-
-    @Autowired
-    private GroupService projectService;
 
     @Autowired
     private ProfileVerificationService profileVerificationService;
