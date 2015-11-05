@@ -9,4 +9,6 @@ public interface GroupRepository {
     WorkGroup addGroup(WorkGroup workGroup);
 
     WorkGroup findGroupById(String groupId);
+    
+    WorkGroup findGroupByName(String groupName);
 }

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.epam.socode.domain.WorkGroup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,8 +15,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import com.epam.socode.annotation.ControllerTest;
+import com.epam.socode.domain.GroupData;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.domain.WorkGroup;
 import com.epam.socode.request.Signup;
 import com.epam.socode.request.Verify;
 import com.epam.socode.response.ErrorCodes;
@@ -35,6 +36,9 @@ public class AuthControllerTest extends BaseControllerTest {
 
     @InjectMocks
     AuthController authController;
+    
+    @InjectMocks
+    GroupController groupController;
 
     @Autowired
     GroupService groupService;
@@ -74,7 +78,7 @@ public class AuthControllerTest extends BaseControllerTest {
     @Test
     public void singUpWithGroupTest() throws Exception {
         String email = "singUpWithGroup@email.com";
-        WorkGroup workGroup = groupService.addGroup("singUpWithGroupTest");
+        WorkGroup workGroup = groupService.addGroup(new GroupData("singUpWithGroupTest",""));
 
         Response response = getResponseFromResult(signUpProfile(email, workGroup));
         assertEquals(Response.STATUS_SUCCESS, response.getStatus());

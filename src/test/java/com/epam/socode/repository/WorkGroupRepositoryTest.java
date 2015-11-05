@@ -1,6 +1,5 @@
 package com.epam.socode.repository;
 
-import com.epam.socode.domain.WorkGroup;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.epam.socode.annotation.ControllerTest;
+import com.epam.socode.domain.WorkGroup;
 
 /**
  * @author jafar_qaddoumi

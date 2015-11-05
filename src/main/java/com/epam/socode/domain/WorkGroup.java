@@ -22,12 +22,22 @@ public class WorkGroup {
 
     @JsonProperty("group_name")
     private String groupName;
+    
+    @JsonProperty("owner_profile_id")
+    private String ownerProfileId;
+    
+   
 
-    public WorkGroup() {
+	public WorkGroup() {
     }
-
-    public WorkGroup(String groupName) {
+	
+	public WorkGroup(String groupName) {
         this.groupName = groupName;
+    }
+	
+    public WorkGroup(String groupName,String ownerProfileId) {
+        this.groupName = groupName;
+        this.ownerProfileId = ownerProfileId;
     }
 
     public String getGroupId() {
@@ -45,4 +55,12 @@ public class WorkGroup {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+    
+    public String getOwnerProfileId() {
+		return ownerProfileId;
+	}
+
+	public void setOwnerProfileID(String ownerProfileId) {
+		this.ownerProfileId = ownerProfileId;
+	}
 }
