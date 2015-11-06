@@ -49,7 +49,7 @@ public class ProfileControllerTest extends BaseControllerTest {
         profileData.setToken(token);
 
         MvcResult result = mockMvc.perform(
-                MockMvcRequestBuilders.post(ProfileController.MAPPING_API_AUTH_PROFILE)
+                MockMvcRequestBuilders.post(ProfileController.MAPPING_API_PROFILE)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(profileData))
                         .accept(MediaType.APPLICATION_JSON))
@@ -98,7 +98,7 @@ public class ProfileControllerTest extends BaseControllerTest {
 
         // update profile
         MvcResult result = mockMvc.perform(
-                MockMvcRequestBuilders.post(ProfileController.MAPPING_API_AUTH_PROFILE + BaseController.MAPPING_UPDATE)
+                MockMvcRequestBuilders.post(ProfileController.MAPPING_API_PROFILE + BaseController.MAPPING_UPDATE)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(profileUpdate))
                         .accept(MediaType.APPLICATION_JSON))
@@ -121,7 +121,7 @@ public class ProfileControllerTest extends BaseControllerTest {
 
         // get Profile
         result = mockMvc.perform(
-                MockMvcRequestBuilders.post(ProfileController.MAPPING_API_AUTH_PROFILE)
+                MockMvcRequestBuilders.post(ProfileController.MAPPING_API_PROFILE)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(profileData))
                         .accept(MediaType.APPLICATION_JSON))
