@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author jafar_qaddoumi
  */
 @RestController
-@RequestMapping(BaseController.MAPPING_API_AUTH_PROFILE)
+@RequestMapping(BaseController.MAPPING_API_PROFILE)
 class ProfileController implements BaseController {
 
     @Autowired
