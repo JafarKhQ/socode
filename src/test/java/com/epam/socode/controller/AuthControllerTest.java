@@ -4,9 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.epam.socode.domain.WorkGroup;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import com.epam.socode.annotation.ControllerTest;
 import com.epam.socode.domain.Profile;
 import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.domain.WorkGroup;
 import com.epam.socode.request.Signup;
 import com.epam.socode.request.Verify;
 import com.epam.socode.response.ErrorCodes;
@@ -31,6 +33,7 @@ import com.epam.socode.service.ProfileVerificationService;
  */
 @ControllerTest
 @RunWith(SpringJUnit4ClassRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AuthControllerTest extends BaseControllerTest {
 
     @InjectMocks
