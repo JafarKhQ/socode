@@ -17,6 +17,6 @@ import java.lang.annotation.*;
 @Documented
 @Configuration
 @EnableWebMvc
-@ComponentScan(Constants.PACKAGE_CONTROLLER)
+@ComponentScan(basePackages = {Constants.PACKAGE_CONTROLLER})
 public @interface WebConfiguration {
 }
