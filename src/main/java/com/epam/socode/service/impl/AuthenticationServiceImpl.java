@@ -42,11 +42,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             profile = profileService.findProfileByEmail(login.getLogin());
         } catch (ProfileNotFoundException e) {
-            throw new WrongEmailPasswordException();
+            throw new WrongEmailPasswordException("Login or password incorrect");
         }
 
         if (!profile.getPassword().equals(login.getPassword())) {
-            throw new WrongEmailPasswordException();
+            throw new WrongEmailPasswordException("Login or password incorrect");
         }
 
         final String token = generateToken(profile);
@@ -58,13 +58,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void validateToken(String token) {
         ProfileToken profileToken = authenticationRepository.findToken(token);
         if (null == profileToken) {
-            throw new InvalidTokenException();
+            throw new InvalidTokenException("Token or profile ID incorrect");
         }
 
         long currentTime = System.currentTimeMillis();
         long expireAt = profileToken.getLastUsedTime() + TimeUnit.MINUTES.toMillis(expirationTimeMin);
         if (currentTime > expireAt) {
-            throw new ExpiredTokenException();
+            throw new ExpiredTokenException("Token or profile ID incorrect");
         } else {
             profileToken.setLastUsedTime(currentTime);
         }
