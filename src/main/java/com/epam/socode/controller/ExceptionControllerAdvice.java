@@ -21,34 +21,34 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(EmailVerificationException.class)
     @ResponseBody
     public Response handleEmailVerificationException(Exception e) {
-        return Response.newErrorResponse(ErrorCodes.EMAIL_VERIFICATION_ERROR);
+        return Response.newErrorResponse(ErrorCodes.EMAIL_VERIFICATION_ERROR, e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(WrongEmailPasswordException.class)
     @ResponseBody
     public Response handleWrongEmailPasswordException(Exception e) {
-        return Response.newErrorResponse(ErrorCodes.WRONG_EMAIL_PASSWORD_ERROR);
+        return Response.newErrorResponse(ErrorCodes.WRONG_EMAIL_PASSWORD_ERROR, e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(InvalidTokenException.class)
     @ResponseBody
     public Response handleInvalidTokenException(Exception e) {
-        return Response.newErrorResponse(ErrorCodes.INVALID_TOKEN_ERROR);
+        return Response.newErrorResponse(ErrorCodes.INVALID_TOKEN_ERROR, e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ExpiredTokenException.class)
     @ResponseBody
     public Response handleExpiredTokenException(Exception e) {
-        return Response.newErrorResponse(ErrorCodes.EXPIRED_TOKEN_ERROR);
+        return Response.newErrorResponse(ErrorCodes.EXPIRED_TOKEN_ERROR, e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ProfileExistException.class)
     @ResponseBody
     public Response handleProfileExistException(Exception e) {
-        return Response.newErrorResponse(ErrorCodes.PROFILE_EXIST_ERROR);
+        return Response.newErrorResponse(ErrorCodes.PROFILE_EXIST_ERROR, e.getMessage());
     }
 }
