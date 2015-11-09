@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.epam.socode.exception.EmailVerificationException;
 import com.epam.socode.exception.ExpiredTokenException;
+import com.epam.socode.exception.GroupExistException;
 import com.epam.socode.exception.InvalidTokenException;
 import com.epam.socode.exception.ProfileExistException;
 import com.epam.socode.exception.WrongEmailPasswordException;
@@ -50,5 +51,12 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     public Response handleProfileExistException(Exception e) {
         return Response.newErrorResponse(ErrorCodes.PROFILE_EXIST_ERROR, e.getMessage());
+    }
+    
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(GroupExistException.class)
+    @ResponseBody
+    public Response handleGroupExistException(Exception e) {
+        return Response.newErrorResponse(ErrorCodes.GROUP_EXIST_ERROR,e.getMessage());
     }
 }

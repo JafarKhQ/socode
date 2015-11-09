@@ -1,14 +1,7 @@
 package com.epam.socode.config;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.VerificationKey;
-import com.epam.socode.domain.WorkGroup;
-import com.epam.socode.util.Constants;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.istack.internal.Nullable;
+import java.util.Properties;
+
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -29,7 +22,14 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
-import java.util.Properties;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.domain.WorkGroup;
+import com.epam.socode.util.Constants;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Common App Configuration for All environments (Profiles)
@@ -103,7 +103,6 @@ class BaseAppConfig {
      * @return JavaMailSender object or null if email not configured in properties
      */
     @Bean
-    @Nullable
     public JavaMailSender javaMailSender() {
         if (Strings.isEmpty(emailHost)) {
             return null;

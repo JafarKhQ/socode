@@ -1,9 +1,7 @@
 package com.epam.socode.listener;
 
 import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.VerificationKey;
 import com.epam.socode.event.OnRegistrationCompleteEvent;
-import com.epam.socode.service.ProfileVerificationService;
 import com.epam.socode.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -25,16 +23,12 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private JavaMailSender mailSender;
     @Autowired
     private MessageSource messageSource;
-    @Autowired
-    private ProfileVerificationService profileVerificationService;
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        Profile profile = event.getSource();
-        VerificationKey verificationKey = profileVerificationService.createVerificationKey(profile);
-
         if (null != mailSender) {
-            sendConfirmationEmail(profile.getEmail(), verificationKey.getKey());
+            Profile profile = event.getSource();
+            sendConfirmationEmail(profile.getEmail(), event.getVerificationKey().getKey());
         }
     }
 

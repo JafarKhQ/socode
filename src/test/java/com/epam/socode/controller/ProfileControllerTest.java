@@ -1,11 +1,7 @@
 package com.epam.socode.controller;
 
-import com.epam.socode.annotation.ControllerTest;
-import com.epam.socode.domain.Profile;
-import com.epam.socode.request.ProfileData;
-import com.epam.socode.request.ProfileUpdate;
-import com.epam.socode.response.Response;
-import org.junit.Ignore;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,12 +11,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.junit.Assert.assertEquals;
+import com.epam.socode.annotation.ControllerTest;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.request.ProfileData;
+import com.epam.socode.request.ProfileUpdate;
+import com.epam.socode.response.Response;
 
 /**
  * @author jafar_qaddoumi
  */
-@Ignore
 @ControllerTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProfileControllerTest extends BaseControllerTest {

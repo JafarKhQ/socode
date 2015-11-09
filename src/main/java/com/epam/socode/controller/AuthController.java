@@ -1,14 +1,7 @@
 package com.epam.socode.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
 import com.epam.socode.event.OnRegistrationCompleteEvent;
 import com.epam.socode.request.Login;
 import com.epam.socode.request.Logout;
@@ -16,9 +9,15 @@ import com.epam.socode.request.Signup;
 import com.epam.socode.request.Verify;
 import com.epam.socode.response.Response;
 import com.epam.socode.service.AuthenticationService;
-import com.epam.socode.service.GroupService;
 import com.epam.socode.service.ProfileService;
 import com.epam.socode.service.ProfileVerificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author jafar_qaddoumi
@@ -29,9 +28,6 @@ class AuthController implements BaseController {
 
     @Autowired
     private ProfileService profileService;
-
-    @Autowired
-    private GroupService projectService;
 
     @Autowired
     private ProfileVerificationService profileVerificationService;
@@ -45,10 +41,11 @@ class AuthController implements BaseController {
     @RequestMapping(value = MAPPING_SIGNUP, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleSignup(@RequestBody Signup signup) {
         // TODO: remove test project
-        projectService.addGroup("Test WorkGroup");
-        Profile result = profileService.addProfileFromSignup(signup);
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(result));
-        return Response.newSuccessResponse(result);
+        Profile profile = profileService.addProfileFromSignup(signup);
+        VerificationKey verificationKey = profileVerificationService.createVerificationKey(profile);
+
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(profile, verificationKey));
+        return Response.newSuccessResponse(profile);
     }
 
     @RequestMapping(value = MAPPING_VERIFY, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -1,6 +1,5 @@
 package com.epam.socode.service;
 
-import com.epam.socode.domain.WorkGroup;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.epam.socode.annotation.ControllerTest;
+import com.epam.socode.domain.GroupData;
+import com.epam.socode.domain.WorkGroup;
 
 /**
  * @author jafar_qaddoumi
@@ -22,7 +23,9 @@ public class WorkGroupServiceTest {
     @Test
     public void testAddGroup() throws Exception {
         String groupName = "testAddGroup";
-        WorkGroup workGroup = groupService.addGroup(groupName);
+        String groupOwnerId = "testGroupOwnerId";
+        
+        WorkGroup workGroup = groupService.addGroup(new GroupData(groupName, groupOwnerId));
 
         Assert.assertEquals(groupName, workGroup.getGroupName());
     }
@@ -30,7 +33,8 @@ public class WorkGroupServiceTest {
     @Test
     public void testFindGroupById() throws Exception {
         String groupName = "testFindGroupById";
-        WorkGroup workGroup = groupService.addGroup(groupName);
+        String groupOwnerId = "testGroupOwnerId";       			
+        WorkGroup workGroup = groupService.addGroup(new GroupData(groupName, groupOwnerId));
 
         WorkGroup workGroupFind = groupService.findGroupById(workGroup.getGroupId());
 
