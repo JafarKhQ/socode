@@ -28,19 +28,18 @@ class AuthController implements BaseController {
 
     @Autowired
     private ProfileService profileService;
-
     @Autowired
     private ProfileVerificationService profileVerificationService;
-
     @Autowired
     private AuthenticationService authenticationService;
-
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    @RequestMapping(value = MAPPING_SIGNUP, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = MAPPING_SIGNUP,
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleSignup(@RequestBody Signup signup) {
-        // TODO: remove test project
         Profile profile = profileService.addProfileFromSignup(signup);
         VerificationKey verificationKey = profileVerificationService.createVerificationKey(profile);
 
@@ -48,19 +47,28 @@ class AuthController implements BaseController {
         return Response.newSuccessResponse(profile);
     }
 
-    @RequestMapping(value = MAPPING_VERIFY, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = MAPPING_VERIFY,
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleVerify(@RequestBody Verify verify) {
         Profile profile = profileVerificationService.verifyProfile(verify);
         return Response.newSuccessResponse(profile);
     }
 
-    @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = MAPPING_LOGIN,
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleLogin(@RequestBody Login login) {
         String token = authenticationService.login(login);
         return Response.newSuccessResponse(token);
     }
 
-    @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = MAPPING_LOGOUT,
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response handleLogout(@RequestBody Logout logout) {
         authenticationService.logout(logout);
         return Response.newSuccessResponse();

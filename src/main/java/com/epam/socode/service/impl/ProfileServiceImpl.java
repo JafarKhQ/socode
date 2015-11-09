@@ -1,11 +1,7 @@
 package com.epam.socode.service.impl;
 
-import com.epam.socode.domain.WorkGroup;
-import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.WorkGroup;
 import com.epam.socode.exception.NotAllowedOperationException;
 import com.epam.socode.exception.ProfileExistException;
 import com.epam.socode.exception.ProfileNotFoundException;
@@ -15,6 +11,9 @@ import com.epam.socode.request.Signup;
 import com.epam.socode.service.AuthenticationService;
 import com.epam.socode.service.GroupService;
 import com.epam.socode.service.ProfileService;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author jafar_qaddoumi
@@ -44,12 +43,15 @@ public class ProfileServiceImpl implements ProfileService {
 
         Profile profile = new Profile(signup);
         profile.setJoinDate(String.valueOf(System.currentTimeMillis()));
+        profile = profileRepository.addProfile(profile);
+
         if (Strings.isNotEmpty(signup.getGroup())) {
             WorkGroup workGroup = groupService.findGroupById(signup.getGroup());
             profile.addParticipatedGroup(workGroup);
+            profile = profileRepository.mergeProfile(profile);
         }
 
-        return profileRepository.addProfile(profile);
+        return profile;
     }
 
     @Override

@@ -11,6 +11,8 @@ public interface ProfileRepository {
 
     Profile updateProfile(Profile profile);
 
+    Profile mergeProfile(Profile profile);
+
     Profile findProfileByEmail(String email);
 
     Profile findProfileById(String profileId);

@@ -1,20 +1,23 @@
 package com.epam.socode.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jafar_qaddoumi
  */
 @Entity
+@Table(name = WorkGroup.TABLE)
 public class WorkGroup {
+    public static final String TABLE = "WORK_GROUPS";
+    public static final String COLUMN_ID = "GROUPS_ID";
 
     @Id
+    @Column(name = WorkGroup.COLUMN_ID)
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @JsonProperty("group_id")
@@ -22,20 +25,24 @@ public class WorkGroup {
 
     @JsonProperty("group_name")
     private String groupName;
-    
+
     @JsonProperty("owner_profile_id")
     private String ownerProfileId;
-    
-   
 
-	public WorkGroup() {
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            targetEntity = Profile.class,
+            mappedBy = "participatedWorkGroup")
+    private List<Profile> members = new ArrayList<>();
+
+    public WorkGroup() {
     }
-	
-	public WorkGroup(String groupName) {
+
+    public WorkGroup(String groupName) {
         this.groupName = groupName;
     }
-	
-    public WorkGroup(String groupName,String ownerProfileId) {
+
+    public WorkGroup(String groupName, String ownerProfileId) {
         this.groupName = groupName;
         this.ownerProfileId = ownerProfileId;
     }
@@ -55,12 +62,20 @@ public class WorkGroup {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-    
-    public String getOwnerProfileId() {
-		return ownerProfileId;
-	}
 
-	public void setOwnerProfileID(String ownerProfileId) {
-		this.ownerProfileId = ownerProfileId;
-	}
+    public String getOwnerProfileId() {
+        return ownerProfileId;
+    }
+
+    public void setOwnerProfileID(String ownerProfileId) {
+        this.ownerProfileId = ownerProfileId;
+    }
+
+    public List<Profile> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Profile> members) {
+        this.members = members;
+    }
 }

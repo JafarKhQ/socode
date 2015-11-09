@@ -13,9 +13,14 @@ import java.util.List;
  * @author jafar_qaddoumi
  */
 @Entity
+@Table(name = Profile.TABLE)
 public class Profile {
+    public static final String TABLE = "PROFILES";
+    public static final String COLUMN_ID = "PROFILE_ID";
+    public static final String COLUMN_PARTICIPATED_GROUPS = "PARTICIPATED_GROUPS";
 
     @Id
+    @Column(name = Profile.COLUMN_ID)
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @JsonProperty("profile_id")
@@ -50,10 +55,15 @@ public class Profile {
     @JsonProperty("total_score")
     private Long totalScore;
 
-    @ManyToMany(targetEntity = WorkGroup.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "Profile_Group",
-            joinColumns = {@JoinColumn(name = "profileId")},
-            inverseJoinColumns = {@JoinColumn(name = "groupId")})
+    @Column(name = Profile.COLUMN_PARTICIPATED_GROUPS)
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = WorkGroup.class)
+    @JoinTable(
+            name = Profile.TABLE + "_" + WorkGroup.TABLE,
+            joinColumns = @JoinColumn(name = Profile.COLUMN_ID),
+            inverseJoinColumns = @JoinColumn(name = WorkGroup.COLUMN_ID))
     @JsonProperty("participated")
     public List<WorkGroup> participatedWorkGroup = new ArrayList<>();
 

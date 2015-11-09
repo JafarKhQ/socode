@@ -42,6 +42,16 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public Profile mergeProfile(Profile profile) {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+        session.merge(profile);
+        session.getTransaction().commit();
+        session.close();
+        return profile;
+    }
+
+    @Override
     public Profile findProfileByEmail(String email) {
         Session session = sessionFactory.openSession();
         Query q = session.createQuery("FROM Profile p WHERE p.email = '" + email + "'");

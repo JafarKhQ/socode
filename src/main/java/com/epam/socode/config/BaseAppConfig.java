@@ -1,7 +1,14 @@
 package com.epam.socode.config;
 
-import java.util.Properties;
-
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.domain.WorkGroup;
+import com.epam.socode.util.Constants;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -22,14 +29,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.VerificationKey;
-import com.epam.socode.domain.WorkGroup;
-import com.epam.socode.util.Constants;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Properties;
 
 /**
  * Common App Configuration for All environments (Profiles)
@@ -128,8 +128,9 @@ class BaseAppConfig {
     public ObjectMapper objectMapper() {
         final ObjectMapper om = new ObjectMapper();
 
-        // Ignore null objects (null objects will not presented in the JSON String)
+        // Ignore null/empty objects (null/empty objects will not presented in the JSON String)
         om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        om.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 
         // Ignore all Class properties (setters, getters, isGetters, methods and fields)
         // from serialisation and deserialization
@@ -137,6 +138,9 @@ class BaseAppConfig {
 
         // include all fields in serialisation and deserialization
         om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        // Registering module for Hibernate 4.x
+        om.registerModule(new Hibernate4Module());
 
         return om;
     }
