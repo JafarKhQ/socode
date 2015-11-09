@@ -3,6 +3,7 @@ package com.epam.socode.service.impl;
 import com.epam.socode.domain.WorkGroup;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.epam.socode.domain.Profile;
@@ -31,6 +32,9 @@ public class ProfileServiceImpl implements ProfileService {
     @Autowired
     private AuthenticationService authenticationService;
 
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
     @Override
     public Profile addProfileFromSignup(Signup signup) {
         try {
@@ -48,7 +52,7 @@ public class ProfileServiceImpl implements ProfileService {
             WorkGroup workGroup = groupService.findGroupById(signup.getGroup());
             profile.addParticipatedGroup(workGroup);
         }
-
+        profile.setPassword(passwordEncoder.encode(profile.getPassword()));
         return profileRepository.addProfile(profile);
     }
 

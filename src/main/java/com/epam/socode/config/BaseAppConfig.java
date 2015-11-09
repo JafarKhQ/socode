@@ -19,6 +19,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
@@ -72,6 +73,10 @@ class BaseAppConfig {
     @Value("${email.debug}")
     String emailDebug;
 
+    // password
+    @Value("${password.enable_hashing}")
+    boolean passwordEnableHashing;
+    
     /**
      * A bean for hibernate
      *
@@ -176,6 +181,19 @@ class BaseAppConfig {
         SimpleApplicationEventMulticaster saem = new SimpleApplicationEventMulticaster();
         saem.setTaskExecutor(new SimpleAsyncTaskExecutor());
         return saem;
+    }
+    
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    	return new BCryptPasswordEncoder(){
+    		@Override
+    		public String encode (CharSequence rawPassword){
+    			if(passwordEnableHashing)
+    				return super.encode(rawPassword);
+    			else
+    				return rawPassword.toString();
+    		}
+    	};
     }
 
     /**
