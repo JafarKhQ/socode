@@ -36,7 +36,7 @@ public class ProfileServiceImpl implements ProfileService {
         try {
             Profile p = findProfileByEmail(signup.getLogin());
             if (null != p) {
-                throw new ProfileExistException();
+                throw new ProfileExistException("Profile already exists");
             }
         } catch (ProfileNotFoundException e) {
             // ignore error

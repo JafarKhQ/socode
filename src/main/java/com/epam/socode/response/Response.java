@@ -16,6 +16,8 @@ public class Response {
     private int statusCode;
     @JsonProperty
     private Object data;
+    @JsonProperty
+    private String result;
 
     private Response() {
     }
@@ -33,11 +35,12 @@ public class Response {
         return response;
     }
 
-    public static Response newErrorResponse(int code) {
+    public static Response newErrorResponse(int code, String message) {
         Response response = new Response();
         response.data = null;
         response.status = STATUS_FAIL;
         response.statusCode = code;
+        response.result = message;
 
         return response;
     }
@@ -65,4 +68,13 @@ public class Response {
     public void setData(Object data) {
         this.data = data;
     }
+    
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
 }

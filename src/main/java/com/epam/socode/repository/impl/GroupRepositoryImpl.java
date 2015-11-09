@@ -41,4 +41,18 @@ public class GroupRepositoryImpl implements GroupRepository {
         session.close();
         return workGroup;
     }
+
+	@Override
+	public WorkGroup findGroupByName(String groupName) {
+		WorkGroup workGroup = null;
+        Session session = sessionFactory.openSession();
+        Query q = session.createQuery("FROM WorkGroup p WHERE p.groupName = '" + groupName + "'");
+        @SuppressWarnings("rawtypes")
+        List queryResult = q.list();
+        if (!CollectionUtils.isEmpty(queryResult)) {
+            workGroup = (WorkGroup) queryResult.get(0);
+        }
+        session.close();
+        return workGroup;
+	}
 }

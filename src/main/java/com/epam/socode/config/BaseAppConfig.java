@@ -1,12 +1,7 @@
 package com.epam.socode.config;
 
-import com.epam.socode.domain.Profile;
-import com.epam.socode.domain.VerificationKey;
-import com.epam.socode.domain.WorkGroup;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Properties;
+
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -15,12 +10,26 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.ogm.cfg.OgmConfiguration;
 import org.hibernate.ogm.cfg.OgmProperties;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
-import java.util.Properties;
+import com.epam.socode.domain.Profile;
+import com.epam.socode.domain.VerificationKey;
+import com.epam.socode.domain.WorkGroup;
+import com.epam.socode.util.Constants;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Common App Configuration for All environments (Profiles)
@@ -29,6 +38,7 @@ import java.util.Properties;
  */
 class BaseAppConfig {
 
+    // database
     @Value("${database.provider}")
     String databaseProvider;
     @Value("${database.create_database}")
@@ -48,6 +58,7 @@ class BaseAppConfig {
     @Value("${database.hbm2ddl.auto}")
     String hbm2ddlAuto;
 
+    // email
     @Value("${email.port}")
     String emailPort;
     @Value("${email.host}")
@@ -61,6 +72,11 @@ class BaseAppConfig {
     @Value("${email.debug}")
     String emailDebug;
 
+    /**
+     * A bean for hibernate
+     *
+     * @return hibernate SessionFactory
+     */
     @Bean
     public SessionFactory sessionFactory() {
         final Configuration configuration = getSessionFactoryConfiguration();
@@ -71,11 +87,21 @@ class BaseAppConfig {
         return configuration.buildSessionFactory(serviceRegistry);
     }
 
+    /**
+     * A bean for property sources
+     *
+     * @return PropertySourcesPlaceholderConfigurer
+     */
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
+    /**
+     * A bean for sending emails
+     *
+     * @return JavaMailSender object or null if email not configured in properties
+     */
     @Bean
     public JavaMailSender javaMailSender() {
         if (Strings.isEmpty(emailHost)) {
@@ -93,6 +119,11 @@ class BaseAppConfig {
         return mailSender;
     }
 
+    /**
+     * A bean for mapping json
+     *
+     * @return Jackson ObjectMapper object
+     */
     @Bean
     public ObjectMapper objectMapper() {
         final ObjectMapper om = new ObjectMapper();
@@ -108,6 +139,43 @@ class BaseAppConfig {
         om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         return om;
+    }
+
+    /**
+     * A bean for our MessageSource which define the message source
+     * property name for internalization and localization
+     *
+     * @return MessageSource object
+     */
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource =
+                new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename(Constants.MESSAGE_SOURCE_EMAILS);
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+
+    /**
+     * A bean for LocaleResolver
+     *
+     * @return LocaleResolver object
+     */
+    @Bean
+    public LocaleResolver localeResolver() {
+        return new AcceptHeaderLocaleResolver();
+    }
+
+    /**
+     * A bean for ApplicationEventMulticaster to run our events on async way
+     *
+     * @return ApplicationEventMulticaster object with AsyncTaskExecutor
+     */
+    @Bean
+    public ApplicationEventMulticaster applicationEventMulticaster() {
+        SimpleApplicationEventMulticaster saem = new SimpleApplicationEventMulticaster();
+        saem.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        return saem;
     }
 
     /**

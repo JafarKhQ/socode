@@ -13,6 +13,7 @@ public final class ErrorCodes {
     public static final int INVALID_TOKEN_ERROR = 403;
     public static final int EXPIRED_TOKEN_ERROR = 404;
     public static final int PROFILE_EXIST_ERROR = 405;
+    public static final int GROUP_EXIST_ERROR = 406;
 
     private ErrorCodes() {
         throw new IllegalAccessError();
