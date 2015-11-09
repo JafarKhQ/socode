@@ -72,7 +72,7 @@ public class GroupControllerTest extends BaseControllerTest {
         groupCreate.setGroupName(groupName);
         
         MvcResult result = mockMvc.perform(
-                MockMvcRequestBuilders.post(GroupController.MAPPING_API_GROUP+GroupController.MAPPING_API_GROUP_CREATE)
+                MockMvcRequestBuilders.post(GroupController.MAPPING_API_GROUP+GroupController.MAPPING_CREATE)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(groupCreate))
                         .accept(MediaType.APPLICATION_JSON))
