@@ -39,12 +39,12 @@ public class ProfileVerificationServiceImpl implements ProfileVerificationServic
     public Profile verifyProfile(Verify verify) {
         VerificationKey verificationKey = findVerificationKeyByKey(verify.getVerifyKey());
         if (verificationKey == null) {
-            throw new EmailVerificationException();
+            throw new EmailVerificationException("Verification key must be provided");
         }
 
         Profile profile = verificationKey.getProfile();
         if (!profile.getEmail().equalsIgnoreCase(verify.getEmail())) {
-            throw new EmailVerificationException();
+            throw new EmailVerificationException("Verification error");
         }
 
         return profileService.enableProfile(profile);
