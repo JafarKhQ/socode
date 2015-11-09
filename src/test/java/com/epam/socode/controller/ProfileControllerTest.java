@@ -2,7 +2,6 @@ package com.epam.socode.controller;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,7 +20,6 @@ import com.epam.socode.response.Response;
 /**
  * @author jafar_qaddoumi
  */
-@Ignore
 @ControllerTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProfileControllerTest extends BaseControllerTest {
