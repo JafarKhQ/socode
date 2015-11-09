@@ -57,6 +57,6 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(GroupExistException.class)
     @ResponseBody
     public Response handleGroupExistException(Exception e) {
-        return Response.newErrorResponse(ErrorCodes.GROUP_EXIST_ERROR);
+        return Response.newErrorResponse(ErrorCodes.GROUP_EXIST_ERROR,e.getMessage());
     }
 }

@@ -238,23 +238,27 @@ public class AuthControllerTest extends BaseControllerTest {
     @Test
     public void logoutTokenExpiredNegativeTest() throws Exception {
         String email = "logoutTokenExpiredNegative@email.com";
-
-        Response response = getResponseFromResult(signUpProfile(email, null));
-        Profile profile = getProfileFromResponse(response);
-
-        response = getResponseFromResult(verifyProfile(profile));
-        profile = getProfileFromResponse(response);
-        assertTrue(profile.isEnabled());
-
-        response = getResponseFromResult(loginProfile(profile));
-        assertEquals(Response.STATUS_SUCCESS, response.getStatus());
-        assertEquals(Response.CODE_SUCCESS, response.getStatusCode());
-
-        String token = getStringFromResponse(response);
-        authenticationService.setExpirationTimeMin(0);
-        response = getResponseFromResult(logoutProfile(token));
-        assertEquals(Response.STATUS_FAIL, response.getStatus());
-        assertEquals(ErrorCodes.EXPIRED_TOKEN_ERROR, response.getStatusCode());
+        int expireTime = authenticationService.getExpirationTimeMin();
+        try{
+	        Response response = getResponseFromResult(signUpProfile(email, null));
+	        Profile profile = getProfileFromResponse(response);
+	
+	        response = getResponseFromResult(verifyProfile(profile));
+	        profile = getProfileFromResponse(response);
+	        assertTrue(profile.isEnabled());
+	
+	        response = getResponseFromResult(loginProfile(profile));
+	        assertEquals(Response.STATUS_SUCCESS, response.getStatus());
+	        assertEquals(Response.CODE_SUCCESS, response.getStatusCode());
+	
+	        String token = getStringFromResponse(response);
+	        authenticationService.setExpirationTimeMin(0);
+	        response = getResponseFromResult(logoutProfile(token));
+	        assertEquals(Response.STATUS_FAIL, response.getStatus());
+	        assertEquals(ErrorCodes.EXPIRED_TOKEN_ERROR, response.getStatusCode());}
+        finally{
+        	authenticationService.setExpirationTimeMin(expireTime);
+        }
     }
 
     private MvcResult verifyProfile(Profile profile) throws Exception {

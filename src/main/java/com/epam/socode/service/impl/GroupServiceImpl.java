@@ -20,7 +20,7 @@ public class GroupServiceImpl implements GroupService {
     public WorkGroup addGroup(GroupData groupData) { 	
             WorkGroup p = findGroupByName(groupData.getGroupName());
             if (null != p) {
-                throw new GroupExistException();
+                throw new GroupExistException("Group already exists");
             }
         WorkGroup workGroup = new WorkGroup(groupData.getGroupName(),groupData.getGroupOwnerId());
         return groupRepository.addGroup(workGroup);
@@ -35,7 +35,4 @@ public class GroupServiceImpl implements GroupService {
 	public WorkGroup findGroupByName(String groupName) {
 		return groupRepository.findGroupByName(groupName);
 	}
-
-	
-
 }
